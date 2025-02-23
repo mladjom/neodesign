@@ -1,30 +1,13 @@
-import { promises as fs } from "fs";
-import path from "path";
-import matter from "gray-matter";
+import { getAllPosts } from '@/lib/mdx'
+import { BlogList } from '@/components/blog/BlogList'
 
-export default async function Blog() {
-  const blogDir = path.join(process.cwd(), "content");
-  const files = await fs.readdir(blogDir);
-  const posts = await Promise.all(
-    files.map(async (file) => {
-      const content = await fs.readFile(path.join(blogDir, file), "utf-8");
-      const { data } = matter(content);
-      return { slug: file.replace(".md", ""), title: data.title };
-    })
-  );
+export default async function BlogListPage() {
+  const posts = await getAllPosts()
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold text-primary">Blog</h1>
-      <ul className="mt-6 space-y-4">
-        {posts.map((post) => (
-          <li key={post.slug}>
-            <a href={`/blog/${post.slug}`} className="text-xl text-primary hover:underline">
-              {post.title}
-            </a>
-          </li>
-        ))}
-      </ul>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-8">Blog</h1>
+      <BlogList posts={posts} />
     </div>
-  );
+  )
 }
