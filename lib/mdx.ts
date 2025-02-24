@@ -46,3 +46,4 @@ export async function getAllPosts() {
   const posts = await Promise.all(slugs.map((slug) => getPostBySlug(slug)))
   return posts.sort((post1, post2) => (post1.frontmatter.date > post2.frontmatter.date ? -1 : 1))
 }
+

@@ -1,45 +1,36 @@
 ---
-title: "Using MDX in Next.js for Interactive Blog Posts"
-date: "2025-02-22"
-excerpt: "Learn how to integrate MDX in Next.js to create interactive and dynamic blog content with React components."
-tags: ["Next.js", "MDX", "Blog"]
+title: Getting Started with MDX in Next.js
+excerpt: Learn how to integrate MDX into your Next.js project for powerful content authoring capabilities.
+date: '2025-02-18'
+coverImage: https://images.unsplash.com/photo-1587620962725-abab7fe55159
 ---
 
-# Using MDX in Next.js for Interactive Blog Posts
+# Getting Started with MDX in Next.js
 
-MDX allows us to write JSX inside Markdown, making it perfect for interactive blog content.
+MDX is a powerful format that lets you seamlessly write JSX in your Markdown documents. You can import components, such as interactive charts or alerts, and embed them within your content.
 
-## 1. **Install Required Packages**
+## Why MDX?
 
+- Write Markdown with JSX
+- Import and use React components
+- Create interactive blog posts
+- Style your content with Tailwind CSS
 
-## 2. **Set Up MDX in Next.js**
+## Example Component
 
+Here's how you can use a React component in your MDX:
 
+```jsx
+import { Alert } from '@/components/ui/alert'
 
-### **Why Use MDX?**
-- Mix Markdown with React components.
-- Great for interactive documentation or blogs.
+<Alert>
+  This is a custom alert component in MDX!
+</Alert>
+```
 
-With MDX, your Next.js blog can be both **dynamic and developer-friendly**!
+## Next Steps
 
-Your content here...
-
-<YouTubeVideo id="video-id" />
-
-<Image src="/path/to/image.jpg" alt="Image description" />
-
-```code blocks with syntax highlighting``` 
-
- In the above example, we have a blog post written in MDX format. The front matter contains metadata like the title, date, excerpt, and tags. The content of the blog post is written in Markdown with JSX components like  <YouTubeVideo />  and  <Image /> . 
- The  <YouTubeVideo />  and  <Image />  components are custom React components that we can define in our Next.js app. 
- To render the MDX content in our Next.js app, we need to set up the required packages and configurations. 
- Step 1: Install Required Packages 
- First, we need to install the necessary packages to enable MDX support in our Next.js app. 
- Run the following command to install the required packages: 
- npm install @next/mdx @mdx-js/loader 
- This command installs the  @next/mdx  package, which provides built-in support for MDX in Next.js, and the  @mdx-js/loader  package, which is used to load MDX files in our app. 
- Step 2: Set Up MDX in Next.js 
- Next, we need to configure our Next.js app to support MDX files. 
- In your Next.js project, create a  next.config.js  file in the root directory if you don't already have one. 
- Add the following configuration to enable MDX support: 
- // next.config.js
+1. Create more MDX files
+2. Add custom components
+3. Style your content
+4. Deploy your site

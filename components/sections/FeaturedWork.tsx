@@ -33,7 +33,7 @@ export function FeaturedWork() {
                 <Card className="overflow-hidden h-full">
                   <div className="aspect-video relative">
                     <img
-                      src={`https://picsum.photos/600/400`}
+                      src={`https://picsum.photos/seed/${project.title}/600/400`}
                       alt={project.title}
                       className="object-cover w-full h-full"
                     />
