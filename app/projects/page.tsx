@@ -1,40 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ProjectFilter } from "@/components/projects/ProjectFilter";
 import { ProjectGrid } from "@/components/projects/ProjectGrid";
 import { CaseStudyPreview } from "@/components/projects/CaseStudyPreview";
-
-const projects: Project[] = [
-  {
-    slug: "e-commerce-platform",
-    title: "E-commerce Platform Redesign",
-    client: "Fashion Retailer",
-    timeline: "4 months",
-    role: "Full-stack Development",
-    thumbnail: "/api/placeholder/600/400",
-    technologies: ["Next.js", "TypeScript", "Tailwind CSS"],
-    category: "E-commerce",
-    summary: "Complete redesign and development of an e-commerce platform",
-    description: "A comprehensive e-commerce solution with advanced features...",
-    outcomes: [
-      "150% increase in conversion rate",
-      "40% reduction in page load time",
-      "95% positive user feedback"
-    ]
-  },
-  // Add more projects...
-];
+import { getAllProjects } from "@/lib/project-service";
+import { ProjectDetail } from "@/types/project";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const categories = ["E-commerce", "Web Apps", "Mobile", "Branding"];
 
 export default function ProjectsPage() {
+  const [projects, setProjects] = useState<ProjectDetail[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
+
+  useEffect(() => {
+    async function loadProjects() {
+      try {
+        const data = await getAllProjects();
+        setProjects(data);
+      } catch (error) {
+        console.error("Failed to load projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProjects();
+  }, []);
 
   const filteredProjects = activeCategory === "all"
     ? projects
     : projects.filter(project => project.category === activeCategory);
+
+  if (loading) {
+    return <ProjectsPageSkeleton />;
+  }
 
   return (
     <div className="space-y-20 md:space-y-32">
@@ -92,6 +95,42 @@ export default function ProjectsPage() {
               ))}
             </div>
           </motion.div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function ProjectsPageSkeleton() {
+  return (
+    <div className="space-y-20 md:space-y-32">
+      <section className="relative pt-20 md:pt-32">
+        <div className="container px-4">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <div className="h-16">
+              <Skeleton className="h-full w-full" />
+            </div>
+            <div className="h-12">
+              <Skeleton className="h-full w-full" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="container px-4">
+          <div className="space-y-12">
+            <div className="flex justify-center gap-4">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Skeleton key={i} className="h-10 w-24" />
+              ))}
+            </div>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Skeleton key={i} className="aspect-[4/3] rounded-lg" />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </div>
