@@ -4,9 +4,24 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { fadeIn } from "@/lib/animations";
-import { blogPosts } from "@/config/content";
+import Link from "next/link";
+import { format } from "date-fns";
 
-export function BlogPosts() {
+interface Post {
+  slug: string;
+  frontmatter: {
+    title: string;
+    excerpt: string;
+    date: string;
+    coverImage?: string;
+  };
+}
+
+interface BlogPostsProps {
+  posts: Post[];
+}
+
+export function BlogPosts({ posts }: BlogPostsProps) {
   return (
     <section className="py-20">
       <div className="container px-4">
@@ -19,7 +34,7 @@ export function BlogPosts() {
         >
           <h2 className="text-3xl font-bold text-center">Latest Insights</h2>
           <div className="grid gap-8 md:grid-cols-3">
-            {blogPosts.map((post, index) => (
+            {posts.map((post, index) => (
               <motion.div
                 key={post.slug}
                 variants={{
@@ -30,21 +45,29 @@ export function BlogPosts() {
                 animate="animate"
                 transition={{ delay: index * 0.2 }}
               >
-                <Card className="overflow-hidden h-full">
-                  <div className="aspect-video">
-                    <img
-                      src={`https://picsum.photos/400/250`}
-                      alt={post.title}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                  <div className="p-6 space-y-4">
-                    <p className="text-sm text-muted-foreground">{post.date}</p>
-                    <h3 className="text-xl font-semibold">{post.title}</h3>
-                    <p className="text-muted-foreground line-clamp-2">{post.excerpt}</p>
-                    <Button variant="link" className="p-0">Read More →</Button>
-                  </div>
-                </Card>
+                <Link href={`/blog/${post.slug}`}>
+                  <Card className="overflow-hidden h-full transition-transform hover:scale-[1.02]">
+                    <div className="aspect-video">
+                      <img
+                        src={post.frontmatter.coverImage || `https://picsum.photos/seed/${post.slug}/400/250`}
+                        alt={post.frontmatter.title}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                    <div className="p-6 space-y-4">
+                      <p className="text-sm text-muted-foreground">
+                        {format(new Date(post.frontmatter.date), 'MMM dd, yyyy')}
+                      </p>
+                      <h3 className="text-xl font-semibold">{post.frontmatter.title}</h3>
+                      <p className="text-muted-foreground line-clamp-2">
+                        {post.frontmatter.excerpt}
+                      </p>
+                      <Button variant="link" className="p-0">
+                        Read More →
+                      </Button>
+                    </div>
+                  </Card>
+                </Link>
               </motion.div>
             ))}
           </div>
