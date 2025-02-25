@@ -1,50 +1,71 @@
-// src/components/blog/TableOfContents.tsx
-"use client"
+'use client';
 
-import { useState, useEffect } from 'react'
-import { MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
+import { TableOfContentsItem } from '@/types/blog';
 
-type Heading = {
-  id: string
-  title: string
-  level: number
+interface TableOfContentsProps {
+  toc: TableOfContentsItem[];
 }
 
-export function TableOfContents({ content }: { content: MDXRemoteSerializeResult }) {
-  const [headings, setHeadings] = useState<Heading[]>([])
+export function TableOfContents({ toc }: TableOfContentsProps) {
+  const [activeId, setActiveId] = useState<string>('');
 
   useEffect(() => {
-    const extractedHeadings = content.compiledSource
-      .split('\n')
-      .filter((line) => line.match(/^<h[2-3]/))
-      .map((line) => {
-        const match = line.match(/<h([2-3]) id="(.+)">(.+)<\/h[2-3]>/)
-        if (match) {
-          return {
-            level: parseInt(match[1]),
-            id: match[2],
-            title: match[3],
-          }
+    const headings = Array.from(document.querySelectorAll('h2, h3, h4'));
+    
+    const callback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveId(entry.target.id);
         }
-        return null
-      })
-      .filter((heading): heading is Heading => heading !== null)
-
-    setHeadings(extractedHeadings)
-  }, [content])
-
+      });
+    };
+    
+    const observer = new IntersectionObserver(callback, {
+      rootMargin: '0px 0px -80% 0px',
+    });
+    
+    headings.forEach(heading => observer.observe(heading));
+    
+    return () => observer.disconnect();
+  }, []);
+  
   return (
-    <nav className="toc">
-      <h2 className="text-lg font-semibold mb-4">Table of Contents</h2>
-      <ul className="space-y-2">
-        {headings.map((heading) => (
-          <li key={heading.id} style={{ marginLeft: `${(heading.level - 2) * 16}px` }}>
-            <a href={`#${heading.id}`} className="text-blue-500 hover:underline">
-              {heading.title}
+    <div className="space-y-2">
+      <p className="font-medium text-sm mb-3">Table of Contents</p>
+      <ul className="space-y-2 text-sm">
+        {toc.map(item => (
+          <li key={item.id}>
+            <a
+              href={`#${item.id}`}
+              className={cn(
+                "block py-1 hover:text-primary transition-colors",
+                activeId === item.id ? "text-primary font-medium" : "text-muted-foreground"
+              )}
+            >
+              {item.title}
             </a>
+            {item.children && item.children.length > 0 && (
+              <ul className="pl-4 space-y-1 mt-1">
+                {item.children.map(child => (
+                  <li key={child.id}>
+                    <a
+                      href={`#${child.id}`}
+                      className={cn(
+                        "block py-1 hover:text-primary transition-colors",
+                        activeId === child.id ? "text-primary font-medium" : "text-muted-foreground"
+                      )}
+                    >
+                      {child.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
         ))}
       </ul>
-    </nav>
-  )
+    </div>
+  );
 }

@@ -1,31 +1,57 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from 'react'
-import { getAllPosts } from '@/lib/mdx'
-import { BlogCard } from './BlogCard'
+import { Card, CardContent } from '@/components/ui/card';
+import { BlogPost } from '@/types/blog';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Calendar } from 'lucide-react';
+import { formatDate } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
-export function RelatedPosts({ currentSlug }: { currentSlug: string }) {
-  const [relatedPosts, setRelatedPosts] = useState<{ slug: string }[]>([])
+interface RelatedPostsProps {
+  posts: BlogPost[];
+}
 
-  useEffect(() => {
-    async function fetchRelatedPosts() {
-      const response = await fetch(`/api/related-posts?slug=${currentSlug}`)
-      const data = await response.json()
-      setRelatedPosts(data)
-    }
-    fetchRelatedPosts()
-  }, [currentSlug])
-
-  if (relatedPosts.length === 0) return null
+export function RelatedPosts({ posts }: RelatedPostsProps) {
+  if (!posts.length) return null;
 
   return (
-    <section>
-      <h2 className="text-2xl font-bold mt-8 mb-4">Related Posts</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {relatedPosts.map((post) => (
-          <BlogCard key={post.slug} post={post} />
+    <div className="space-y-6">
+      <h3 className="text-xl font-semibold">Related Articles</h3>
+      <div className="grid gap-6 md:grid-cols-3">
+        {posts.map((post, index) => (
+          <motion.div
+            key={post.slug}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <Link href={`/blog/${post.slug}`}>
+              <Card className="h-full hover:shadow-md transition-shadow group overflow-hidden">
+                <CardContent className="p-0">
+                  <div className="relative aspect-[16/9]">
+                    <Image
+                      src={post.coverImage}
+                      alt={post.title}
+                      fill
+                      className="object-cover transform transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-4 space-y-2">
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Calendar className="h-3 w-3" />
+                      <span>{formatDate(post.date)}</span>
+                    </div>
+                    <h4 className="font-medium group-hover:text-primary transition-colors line-clamp-2">
+                      {post.title}
+                    </h4>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </motion.div>
         ))}
       </div>
-    </section>
-  )
+    </div>
+  );
 }
