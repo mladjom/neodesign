@@ -24,17 +24,17 @@ const projects: ProjectDetail[] = [
       {
         title: "Discovery & Analysis",
         description: "Conducted thorough user research and technical audit to identify pain points and opportunities.",
-        image: "/api/placeholder/600/400"
+        image: "https://picsum.photos/600x400"
       },
       {
         title: "Design & Prototyping",
         description: "Created high-fidelity prototypes with focus on mobile optimization and user experience.",
-        image: "/api/placeholder/600/400"
+        image: "https://picsum.photos/600x400"
       },
       {
         title: "Development & Testing",
         description: "Implemented the solution using modern technologies and conducted extensive performance testing.",
-        image: "/api/placeholder/600/400"
+        image: "https://picsum.photos/600x400"
       }
     ],
     testimonial: {
