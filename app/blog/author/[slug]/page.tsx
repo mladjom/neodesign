@@ -6,7 +6,8 @@ import { BlogGridSkeleton } from '@/components/blog/loading';
 import { notFound } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Twitter, Github, Linkedin } from 'lucide-react';
+import { FaTwitter, FaGithub, FaLinkedin } from "react-icons/fa";
+
 import Link from 'next/link';
 import { Metadata } from 'next';
 
@@ -89,7 +90,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
-                    <Twitter className="h-5 w-5" />
+                    <FaTwitter className="h-5 w-5" />
                     <span className="sr-only">Twitter</span>
                   </a>
                 </Button>
@@ -101,7 +102,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
-                    <Github className="h-5 w-5" />
+                    <FaGithub className="h-5 w-5" />
                     <span className="sr-only">GitHub</span>
                   </a>
                 </Button>
@@ -113,7 +114,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
-                    <Linkedin className="h-5 w-5" />
+                    <FaLinkedin className="h-5 w-5" />
                     <span className="sr-only">LinkedIn</span>
                   </a>
                 </Button>

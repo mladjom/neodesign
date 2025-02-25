@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Twitter, Github, Linkedin } from 'lucide-react';
+import { FaTwitter, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Author } from '@/types/blog';
 
 interface AuthorCardProps {
@@ -46,7 +46,7 @@ export function AuthorCard({ author }: AuthorCardProps) {
                       target="_blank" 
                       rel="noopener noreferrer"
                     >
-                      <Twitter className="h-4 w-4" />
+                      <FaTwitter className="h-4 w-4" />
                       <span className="sr-only">Twitter</span>
                     </a>
                   </Button>
@@ -58,7 +58,7 @@ export function AuthorCard({ author }: AuthorCardProps) {
                       target="_blank" 
                       rel="noopener noreferrer"
                     >
-                      <Github className="h-4 w-4" />
+                      <FaGithub className="h-4 w-4" />
                       <span className="sr-only">GitHub</span>
                     </a>
                   </Button>
@@ -70,7 +70,7 @@ export function AuthorCard({ author }: AuthorCardProps) {
                       target="_blank" 
                       rel="noopener noreferrer"
                     >
-                      <Linkedin className="h-4 w-4" />
+                      <FaLinkedin className="h-4 w-4" />
                       <span className="sr-only">LinkedIn</span>
                     </a>
                   </Button>

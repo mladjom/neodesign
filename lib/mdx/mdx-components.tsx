@@ -1,4 +1,5 @@
-// lib/mdx/mdx-components.tsx
+"use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { ExternalLink, Copy, Check } from 'lucide-react';

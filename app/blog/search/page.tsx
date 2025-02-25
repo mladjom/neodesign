@@ -3,6 +3,7 @@ import { searchBlogPosts, getAllTags } from '@/lib/mdx/mdx-config';
 import { BlogSearch } from '@/components/blog/BlogSearch';
 import { BlogGrid } from '@/components/blog/BlogGrid';
 import { TagCloud } from '@/components/blog/TagCloud';
+import { BlogLayout } from '@/components/blog/BlogLayout';
 import { 
   BlogGridSkeleton,
   TagCloudSkeleton 
@@ -30,8 +31,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const searchResults = query ? await searchBlogPosts(query) : [];
   
   return (
-    <div className="container px-4 py-12 max-w-6xl mx-auto">
-      <div className="grid gap-12">
+    <BlogLayout>
+      <div className="space-y-12">
         {/* Page Header */}
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold tracking-tight">Search Results</h1>
@@ -67,6 +68,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           </div>
         )}
       </div>
-    </div>
+    </BlogLayout>
   );
 }

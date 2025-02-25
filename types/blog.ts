@@ -14,7 +14,7 @@ export interface Author {
     date: string;
     lastUpdated?: string;
     excerpt: string;
-    content: string;
+    content: string ;
     author: Author;
     coverImage: string;
     readingTime: string;

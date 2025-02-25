@@ -9,20 +9,20 @@ import { FeaturedPost } from '@/components/blog/FeaturedPost';
 import { CategoryFilter } from '@/components/blog/CategoryFilter';
 import { BlogGrid } from '@/components/blog/BlogGrid';
 import { BlogPagination } from '@/components/blog/BlogPagination';
+import { BlogLayout } from '@/components/blog/BlogLayout';
 import { 
   FeaturedPostSkeleton, 
   CategoryFilterSkeleton, 
   BlogGridSkeleton 
-} from '@/components/blog/loading'
-
+} from '@/components/blog/loading';
 import { Metadata } from 'next';
 
 interface BlogPageProps {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
     category?: string;
     tag?: string;
-  };
+  }>;
 }
 
 export const metadata: Metadata = {
@@ -36,9 +36,12 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const page = Number(searchParams.page) || 1;
-  const category = searchParams.category || '';
-  const tag = searchParams.tag || '';
+  // Await the searchParams before accessing its properties
+  const params = await searchParams;
+  
+  const page = Number(params.page) || 1;
+  const category = params.category || '';
+  const tag = params.tag || '';
   const postsPerPage = 9;
   
   const { items: posts, pageCount, currentPage } = await getPaginatedBlogPosts(
@@ -53,8 +56,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const featuredPost = featuredPosts[0];
 
   return (
-    <div className="container px-4 py-12 max-w-6xl mx-auto">
-      <div className="grid gap-12">
+    <BlogLayout>
+      <div className="space-y-12">
         {/* Page Header */}
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold tracking-tight">Our Blog</h1>
@@ -89,6 +92,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           <BlogPagination totalPages={pageCount} currentPage={currentPage} />
         )}
       </div>
-    </div>
+    </BlogLayout>
   );
 }

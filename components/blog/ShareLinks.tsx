@@ -1,7 +1,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Twitter, Facebook, Linkedin, Copy, Check } from 'lucide-react';
+import { Copy, Check } from 'lucide-react';
+import { FaTwitter, FaFacebookF, FaLinkedin } from "react-icons/fa";
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -41,42 +42,33 @@ export function ShareLinks({ url, title }: ShareLinksProps) {
     <div className="flex items-center gap-2">
       <span className="text-sm font-medium text-muted-foreground">Share:</span>
       <div className="flex gap-2">
-        <Button
-          as="a"
+        <a
           href={twitterUrl}
           target="_blank"
           rel="noopener noreferrer"
-          variant="outline"
-          size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 flex items-center justify-center border border-gray-300 rounded"
         >
-          <Twitter className="h-4 w-4" />
+          <FaTwitter className="h-4 w-4" />
           <span className="sr-only">Share on Twitter</span>
-        </Button>
-        <Button
-          as="a"
+        </a>
+        <a
           href={facebookUrl}
           target="_blank"
           rel="noopener noreferrer"
-          variant="outline"
-          size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 flex items-center justify-center border border-gray-300 rounded"
         >
-          <Facebook className="h-4 w-4" />
+          <FaFacebookF className="h-4 w-4" />
           <span className="sr-only">Share on Facebook</span>
-        </Button>
-        <Button
-          as="a"
+        </a>
+        <a
           href={linkedinUrl}
           target="_blank"
           rel="noopener noreferrer"
-          variant="outline"
-          size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 flex items-center justify-center border border-gray-300 rounded"
         >
-          <Linkedin className="h-4 w-4" />
+          <FaLinkedin className="h-4 w-4" />
           <span className="sr-only">Share on LinkedIn</span>
-        </Button>
+        </a>
         <Button
           onClick={copyToClipboard}
           variant="outline"

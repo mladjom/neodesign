@@ -1,4 +1,3 @@
-// lib/mdx/mdx-config.ts
 import path from 'path';
 import fs from 'fs';
 import matter from 'gray-matter';
@@ -84,10 +83,13 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
         })
     );
     
-    // Filter out nulls and sort by date (newest first)
-    return posts
-      .filter(post => post !== null) as BlogPost[]
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    // Filter out nulls first
+    const filteredPosts = posts.filter(post => post !== null) as BlogPost[];
+    
+    // Then sort the filtered posts
+    return filteredPosts.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
   } catch (error) {
     console.error('Error getting all blog posts:', error);
     return [];
