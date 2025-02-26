@@ -1,110 +1,10 @@
 "use client";
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { ExternalLink, Copy, Check, AlertCircle, AlertTriangle, Info, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-
-// Code Block with Copy Button
-function CodeBlock({ children, className }: { children: string, className?: string }) {
-  const [copied, setCopied] = useState(false);
-
-  const copyToClipboard = () => {
-    if (typeof window === 'undefined') return;
-    
-    navigator.clipboard.writeText(children);
-    setCopied(true);
-    
-    setTimeout(() => {
-      setCopied(false);
-    }, 2000);
-  };
-
-  return (
-    <div className="relative group">
-      <pre className={cn("rounded-lg", className)}>
-        {children}
-      </pre>
-      <Button 
-        variant="ghost" 
-        size="icon"
-        onClick={copyToClipboard}
-        className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity"
-      >
-        {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-      </Button>
-    </div>
-  );
-}
-
-// Enhanced Callout component with icons
-export function Callout({ 
-  children, 
-  type = 'info',
-  title
-}: { 
-  children: React.ReactNode;
-  type?: 'info' | 'warning' | 'success' | 'error';
-  title?: string;
-}) {
-  const bgColors = {
-    info: 'bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800',
-    warning: 'bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800',
-    success: 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800',
-    error: 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800',
-  };
-
-  const icons = {
-    info: <Info className="h-5 w-5 text-blue-500 dark:text-blue-400 flex-shrink-0" />,
-    warning: <AlertTriangle className="h-5 w-5 text-amber-500 dark:text-amber-400 flex-shrink-0" />,
-    success: <CheckCircle className="h-5 w-5 text-green-500 dark:text-green-400 flex-shrink-0" />,
-    error: <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 flex-shrink-0" />,
-  };
-
-  return (
-    <div className={cn(
-      'p-4 my-6 border-l-4 rounded-r-lg flex gap-3',
-      bgColors[type]
-    )}>
-      {icons[type]}
-      <div>
-        {title && <p className="font-medium mb-1">{title}</p>}
-        <div>{children}</div>
-      </div>
-    </div>
-  );
-}
-
-// Image with caption
-function ImageWithCaption({ 
-  src, 
-  alt, 
-  caption 
-}: { 
-  src: string; 
-  alt: string; 
-  caption?: string;
-}) {
-  return (
-    <figure className="my-8">
-      <div className="relative rounded-lg overflow-hidden aspect-video">
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          className="object-cover"
-        />
-      </div>
-      {caption && (
-        <figcaption className="text-center text-sm text-muted-foreground mt-2">
-          {caption}
-        </figcaption>
-      )}
-    </figure>
-  );
-}
 
 // Custom link component
 function CustomLink(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
@@ -184,8 +84,4 @@ export const components = {
   
   // Custom components
   a: CustomLink,
-  img: ImageWithCaption,
-  pre: CodeBlock,
-  Image: ImageWithCaption,
-  Callout: Callout,
 };

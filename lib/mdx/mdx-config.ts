@@ -12,8 +12,11 @@ import readingTime from 'reading-time';
 import { BlogPost, PaginationResult, TableOfContentsItem } from '@/types/blog';
 
 // MDX Components
-import { Callout } from '@/components/mdx/Callout'; // Make sure this path is correct
 import { components } from './mdx-components';
+import { Callout } from '@/components/mdx/Callout'; 
+import { ImageWithCaption } from '@/components/mdx/Image';
+import { CodeBlock } from '@/components/mdx/CodeBlock';
+import { CustomLink } from '@/components/mdx/Link'; 
 
 const BLOG_DIR = path.join(process.cwd(), 'content/blog');
 
@@ -32,7 +35,12 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     // Make sure we have all required components
     const mdxComponents = {
       ...components,
-      Callout, // Add Callout explicitly here too
+      Callout, 
+      Image: ImageWithCaption,
+      pre: CodeBlock,
+      CodeBlock,
+      a: CustomLink,
+      CustomLink
     };
     
     // Compile MDX

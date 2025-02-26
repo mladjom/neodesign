@@ -24,7 +24,20 @@ seo:
 
 # Getting Started with Next.js and MDX
 
+Next.js
+[Link to documentation](https://nextjs.org)
+
+<CustomLink href="https://nextjs.org">Next.js Docs</CustomLink>
+
+
 Next.js has become the go-to framework for building React applications, especially when you want a mixture of static and server-rendered pages. Combined with MDX (Markdown with JSX), it creates a powerful platform for content-heavy websites.
+
+<pre className="language-javascript">
+{`function example() {
+  console.log("Direct usage");
+  return true;
+}`}
+</pre>
 
 ## What is MDX?
 
@@ -66,29 +79,9 @@ import { compileMDX } from 'next-mdx-remote/rsc';
 
 One of the best things about MDX is the ability to use custom components. Let's create a custom callout component:
 
-```tsx
-// Components for MDX
-function Callout({ 
-  children, 
-  type = 'info' 
-}: { 
-  children: React.ReactNode; 
-  type?: 'info' | 'warning' | 'success' | 'error';
-}) {
-  const bgColors = {
-    info: 'bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800',
-    warning: 'bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800',
-    success: 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800',
-    error: 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800',
-  };
+![Alt text](/path/to/image.jpg)
 
-  return (
-    <div className={`p-4 my-6 border-l-4 rounded-r-lg ${bgColors[type]}`}>
-      {children}
-    </div>
-  );
-}
-```
+
 
 ## Building Blog Features
 
@@ -130,12 +123,12 @@ function Pagination({ currentPage, totalPages }) {
 ### Image Optimization
 
 Next.js has built-in image optimization with the `Image` component:
-
-<ImageWithCaption 
-  src="/blog/performance-chart.jpg" 
-  alt="Performance comparison chart showing Next.js optimization benefits" 
-  caption="Performance improvement with Next.js Image optimization" 
+<Image 
+  src="/images/next-architecture.png" 
+  alt="Next.js Architecture Diagram" 
+  caption="Next.js 14 architecture showing server and client components" 
 />
+
 
 ### Code Splitting
 
