@@ -1,0 +1,92 @@
+---
+title: "Getting Started with Next.js and TypeScript"
+date: "2025-02-26"
+lastUpdated: "2025-02-26"
+excerpt: "Learn how to build modern web applications with Next.js and TypeScript in this comprehensive guide."
+author:
+  name: "Alex Johnson"
+  avatar: "/images/authors/alex-johnson.jpg"
+  title: "Senior Frontend Developer"
+  bio: "Alex has been building web applications for over 10 years and specializes in React and TypeScript."
+  twitter: "alexjohnsondev"
+  github: "alexjohnson"
+  linkedin: "alex-johnson-dev"
+coverImage: "/images/webtools.jpg"
+tags: ["Next.js", "TypeScript", "React", "Web Development"]
+category: "Development"
+featured: true
+seo:
+  title: "Next.js and TypeScript: The Ultimate Guide for Modern Web Development"
+  description: "A comprehensive guide to building type-safe, SEO-friendly web applications with Next.js and TypeScript."
+  keywords: ["Next.js", "TypeScript", "React", "Web Development", "Frontend", "JavaScript"]
+  ogImage: "/images/blog/nextjs-typescript-og.jpg"
+---
+
+import Callout from '../components/Callout';
+import CollapsibleCode from '../components/CollapsibleCode';
+
+# Getting Started with Next.js and TypeScript
+
+Next.js and TypeScript are a powerful combination for building modern web applications. In this guide, we'll explore how to set up a new project and implement some common patterns.
+
+<Callout type="info" title="Prerequisites">
+  To follow along with this tutorial, you should have Node.js installed (version 14 or higher) and a basic understanding of React.
+</Callout>
+
+## Why TypeScript with Next.js?
+
+TypeScript adds static type checking to JavaScript, which helps catch errors during development rather than at runtime. When combined with Next.js, you get:
+
+1. Better developer experience with autocomplete
+2. Fewer bugs in production
+3. Self-documenting code
+4. Improved refactoring capabilities
+
+## Setting Up a New Project
+
+Let's start by creating a new Next.js project with TypeScript:
+
+
+
+This command creates a new Next.js project with TypeScript configuration already set up for you.
+
+## Creating Type-Safe API Routes
+
+One of the advantages of using TypeScript with Next.js is the ability to create type-safe API routes:
+
+
+
+<Callout type="warning" title="Important">
+  Always validate and sanitize input data, especially from API routes, to prevent security vulnerabilities.
+</Callout>
+
+## Working with Data Fetching
+
+Next.js provides several methods for data fetching, and with TypeScript, we can make them type-safe:
+
+
+
+## Conclusion
+
+Next.js and TypeScript provide a robust foundation for building modern web applications. By leveraging the type safety of TypeScript with the powerful features of Next.js, you can create performant, maintainable, and scalable applications.
+
+In future posts, we'll explore more advanced topics like:
+
+- Custom TypeScript configurations
+- State management with TypeScript
+- Performance optimization techniques
+- Deployment strategies
+
+Stay tuned!
+
+export function generateTableOfContents(content) {
+  // This function will be used by the blog platform
+  // to automatically generate a table of contents
+  return [
+    { id: 'why-typescript', title: 'Why TypeScript with Next.js?', level: 2 },
+    { id: 'setting-up', title: 'Setting Up a New Project', level: 2 },
+    { id: 'api-routes', title: 'Creating Type-Safe API Routes', level: 2 },
+    { id: 'data-fetching', title: 'Working with Data Fetching', level: 2 },
+    { id: 'conclusion', title: 'Conclusion', level: 2 },
+  ];
+}
