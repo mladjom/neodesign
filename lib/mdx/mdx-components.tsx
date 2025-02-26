@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ExternalLink, Copy, Check } from 'lucide-react';
+import { ExternalLink, Copy, Check, AlertCircle, AlertTriangle, Info, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
@@ -39,13 +39,15 @@ function CodeBlock({ children, className }: { children: string, className?: stri
   );
 }
 
-// Callout component
-function Callout({ 
+// Enhanced Callout component with icons
+export function Callout({ 
   children, 
-  type = 'info' 
+  type = 'info',
+  title
 }: { 
-  children: React.ReactNode; 
+  children: React.ReactNode;
   type?: 'info' | 'warning' | 'success' | 'error';
+  title?: string;
 }) {
   const bgColors = {
     info: 'bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800',
@@ -54,12 +56,23 @@ function Callout({
     error: 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800',
   };
 
+  const icons = {
+    info: <Info className="h-5 w-5 text-blue-500 dark:text-blue-400 flex-shrink-0" />,
+    warning: <AlertTriangle className="h-5 w-5 text-amber-500 dark:text-amber-400 flex-shrink-0" />,
+    success: <CheckCircle className="h-5 w-5 text-green-500 dark:text-green-400 flex-shrink-0" />,
+    error: <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 flex-shrink-0" />,
+  };
+
   return (
     <div className={cn(
-      'p-4 my-6 border-l-4 rounded-r-lg',
+      'p-4 my-6 border-l-4 rounded-r-lg flex gap-3',
       bgColors[type]
     )}>
-      {children}
+      {icons[type]}
+      <div>
+        {title && <p className="font-medium mb-1">{title}</p>}
+        <div>{children}</div>
+      </div>
     </div>
   );
 }
@@ -174,5 +187,5 @@ export const components = {
   img: ImageWithCaption,
   pre: CodeBlock,
   Image: ImageWithCaption,
-  Callout,
+  Callout: Callout,
 };

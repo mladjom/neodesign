@@ -25,13 +25,14 @@ import { Calendar, Clock } from 'lucide-react';
 import { Metadata } from 'next';
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const post = await getBlogPostBySlug(params.slug);
+  const resolvedParams = await params;
+  const post = await getBlogPostBySlug(resolvedParams.slug);
   
   if (!post) {
     return {
@@ -62,18 +63,19 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = await getBlogPostBySlug(params.slug);
+  const resolvedParams = await params;
+  const post = await getBlogPostBySlug(resolvedParams.slug);
   
   if (!post) {
     notFound();
   }
   
   const toc = extractTableOfContents(post.content as string);
-  const relatedPosts = await getRelatedPosts(params.slug, 3);
+  const relatedPosts = await getRelatedPosts(resolvedParams.slug, 3);
   
   // Get prev/next posts for navigation
   const allPosts = await getAllBlogPosts();
-  const currentIndex = allPosts.findIndex(p => p.slug === params.slug);
+  const currentIndex = allPosts.findIndex(p => p.slug === resolvedParams.slug);
   const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
   const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
   

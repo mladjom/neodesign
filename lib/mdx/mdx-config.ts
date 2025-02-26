@@ -1,3 +1,4 @@
+// lib/mdx/mdx-config.ts
 import path from 'path';
 import fs from 'fs';
 import matter from 'gray-matter';
@@ -11,6 +12,7 @@ import readingTime from 'reading-time';
 import { BlogPost, PaginationResult, TableOfContentsItem } from '@/types/blog';
 
 // MDX Components
+import { Callout } from '@/components/mdx/Callout'; // Make sure this path is correct
 import { components } from './mdx-components';
 
 const BLOG_DIR = path.join(process.cwd(), 'content/blog');
@@ -25,12 +27,18 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     }
     
     const fileContent = fs.readFileSync(filePath, 'utf8');
-    const { data: frontMatter, content } = matter(fileContent);
+    const { data: frontMatter, content: rawContent } = matter(fileContent);
+    
+    // Make sure we have all required components
+    const mdxComponents = {
+      ...components,
+      Callout, // Add Callout explicitly here too
+    };
     
     // Compile MDX
     const mdxSource = await compileMDX({
-      source: content,
-      components,
+      source: rawContent,
+      components: mdxComponents,
       options: {
         parseFrontmatter: true,
         mdxOptions: {
@@ -50,10 +58,11 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       date: frontMatter.date,
       lastUpdated: frontMatter.lastUpdated,
       excerpt: frontMatter.excerpt,
-      content: mdxSource.content,
+      content: mdxSource.content, // React component
+      rawContent: rawContent, // Original markdown string for TOC generation
       author: frontMatter.author,
       coverImage: frontMatter.coverImage,
-      readingTime: readingTime(content).text,
+      readingTime: readingTime(rawContent).text,
       tags: frontMatter.tags || [],
       category: frontMatter.category,
       featured: frontMatter.featured || false,
@@ -70,8 +79,52 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
   }
 }
 
+export function extractTableOfContents(content: string): TableOfContentsItem[] {
+  if (!content || typeof content !== 'string') {
+    console.warn('Content passed to extractTableOfContents is not a string:', typeof content);
+    return [];
+  }
+  
+  try {
+    const headingRegex = /^(#{1,3})\s+(.+)$/gm;
+    const matches = Array.from(content.matchAll(headingRegex));
+    
+    const toc: TableOfContentsItem[] = [];
+    let currentH2: TableOfContentsItem | null = null;
+    
+    matches.forEach(match => {
+      const level = match[1].length;
+      const title = match[2].trim();
+      const id = title
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-');
+      
+      if (level === 2) {
+        currentH2 = { id, title, level, children: [] };
+        toc.push(currentH2);
+      } else if (level === 3 && currentH2) {
+        currentH2.children = currentH2.children || [];
+        currentH2.children.push({ id, title, level });
+      }
+    });
+    
+    return toc;
+  } catch (error) {
+    console.error('Error extracting table of contents:', error);
+    return [];
+  }
+}
+
+
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
   try {
+    // Ensure blog directory exists
+    if (!fs.existsSync(BLOG_DIR)) {
+      console.log(`Blog directory not found: ${BLOG_DIR}`);
+      return [];
+    }
+    
     const files = fs.readdirSync(BLOG_DIR);
     const posts = await Promise.all(
       files
@@ -107,11 +160,13 @@ export async function getPaginatedBlogPosts(
   // Apply filters if needed
   let filteredPosts = allPosts;
   if (category) {
-    filteredPosts = filteredPosts.filter(post => post.category.toLowerCase() === category.toLowerCase());
+    filteredPosts = filteredPosts.filter(post => 
+      post.category && post.category.toLowerCase() === category.toLowerCase()
+    );
   }
   if (tag) {
     filteredPosts = filteredPosts.filter(post => 
-      post.tags.some(t => t.toLowerCase() === tag.toLowerCase())
+      post.tags && post.tags.some(t => t.toLowerCase() === tag.toLowerCase())
     );
   }
   
@@ -177,68 +232,61 @@ export async function getRelatedPosts(slug: string, limit: number = 3): Promise<
     .map(item => item.post);
 }
 
-export function extractTableOfContents(content: string): TableOfContentsItem[] {
-  const headingRegex = /^(#{1,3})\s+(.+)$/gm;
-  const matches = [...content.matchAll(headingRegex)];
-  
-  const toc: TableOfContentsItem[] = [];
-  let currentH2: TableOfContentsItem | null = null;
-  
-  matches.forEach(match => {
-    const level = match[1].length;
-    const title = match[2].trim();
-    const id = title
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-');
-    
-    if (level === 2) {
-      currentH2 = { id, title, level, children: [] };
-      toc.push(currentH2);
-    } else if (level === 3 && currentH2) {
-      currentH2.children = currentH2.children || [];
-      currentH2.children.push({ id, title, level });
-    }
-  });
-  
-  return toc;
-}
-
 export async function getAllCategories() {
-  const posts = await getAllBlogPosts();
-  const categories = posts.reduce((acc, post) => {
-    if (!acc[post.category]) {
-      acc[post.category] = {
-        name: post.category,
-        slug: post.category.toLowerCase().replace(/\s+/g, '-'),
-        count: 0,
-        description: `Posts about ${post.category}`,
-      };
-    }
-    acc[post.category].count++;
-    return acc;
-  }, {} as Record<string, { name: string; slug: string; count: number; description: string }>);
-  
-  return Object.values(categories).sort((a, b) => b.count - a.count);
+  try {
+    const posts = await getAllBlogPosts();
+    
+    // Filter out posts with invalid categories
+    const validPosts = posts.filter(post => post && typeof post.category === 'string');
+    
+    const categories = validPosts.reduce((acc, post) => {
+      const category = post.category;
+      
+      if (!acc[category]) {
+        acc[category] = {
+          name: category,
+          slug: category.toLowerCase().replace(/\s+/g, '-'),
+          count: 0,
+          description: `Posts about ${category}`,
+        };
+      }
+      acc[category].count++;
+      return acc;
+    }, {} as Record<string, { name: string; slug: string; count: number; description: string }>);
+    
+    return Object.values(categories).sort((a, b) => b.count - a.count);
+  } catch (error) {
+    console.error('Error in getAllCategories:', error);
+    return []; // Return empty array to prevent further errors
+  }
 }
 
 export async function getAllTags() {
-  const posts = await getAllBlogPosts();
-  const tags = posts.reduce((acc, post) => {
-    post.tags.forEach(tag => {
-      if (!acc[tag]) {
-        acc[tag] = {
-          name: tag,
-          slug: tag.toLowerCase().replace(/\s+/g, '-'),
-          count: 0,
-        };
-      }
-      acc[tag].count++;
-    });
-    return acc;
-  }, {} as Record<string, { name: string; slug: string; count: number }>);
-  
-  return Object.values(tags).sort((a, b) => b.count - a.count);
+  try {
+    const posts = await getAllBlogPosts();
+    const tags = posts.reduce((acc, post) => {
+      if (!post.tags) return acc;
+      
+      post.tags.forEach(tag => {
+        if (!tag) return; // Skip empty tags
+        
+        if (!acc[tag]) {
+          acc[tag] = {
+            name: tag,
+            slug: tag.toLowerCase().replace(/\s+/g, '-'),
+            count: 0,
+          };
+        }
+        acc[tag].count++;
+      });
+      return acc;
+    }, {} as Record<string, { name: string; slug: string; count: number }>);
+    
+    return Object.values(tags).sort((a, b) => b.count - a.count);
+  } catch (error) {
+    console.error('Error in getAllTags:', error);
+    return [];
+  }
 }
 
 export async function searchBlogPosts(query: string): Promise<BlogPost[]> {
