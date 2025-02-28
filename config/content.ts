@@ -42,23 +42,3 @@ export const services = [
     },
   ];
   
-  export const blogPosts = [
-    {
-      title: "The Future of Web Development in 2025",
-      excerpt: "Explore emerging trends and technologies shaping the future of web development.",
-      date: "Feb 18, 2025",
-      slug: "future-web-development-2025"
-    },
-    {
-      title: "Designing for Accessibility",
-      excerpt: "Best practices for creating inclusive digital experiences that work for everyone.",
-      date: "Feb 15, 2025",
-      slug: "designing-for-accessibility"
-    },
-    {
-      title: "Performance Optimization Tips",
-      excerpt: "Practical strategies to improve your website's loading speed and performance.",
-      date: "Feb 12, 2025",
-      slug: "performance-optimization-tips"
-    }
-  ];

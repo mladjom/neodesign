@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
-import { 
-  getBlogPostBySlug, 
-  extractTableOfContents, 
+import {
+  getBlogPostBySlug,
+  extractTableOfContents,
   getRelatedPosts,
   getAllBlogPosts
 } from '@/lib/blog-service';
@@ -13,10 +13,10 @@ import { PostNavigation } from '@/components/blog/PostNavigation';
 import { BlogLayout } from '@/components/blog/BlogLayout';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { 
-  BlogDetailSkeleton, 
-  TableOfContentsSkeleton, 
-  RelatedPostsSkeleton 
+import {
+  BlogDetailSkeleton,
+  TableOfContentsSkeleton,
+  RelatedPostsSkeleton
 } from '@/components/blog/loading';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -33,14 +33,14 @@ interface BlogPostPageProps {
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const post = await getBlogPostBySlug(resolvedParams.slug);
-  
+
   if (!post) {
     return {
       title: 'Post Not Found',
       description: 'The requested blog post could not be found.',
     };
   }
-  
+
   return {
     title: post.seo?.title || post.title,
     description: post.seo?.description || post.excerpt,
@@ -65,20 +65,20 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const resolvedParams = await params;
   const post = await getBlogPostBySlug(resolvedParams.slug);
-  
+
   if (!post) {
     notFound();
   }
-  
+
   const toc = extractTableOfContents(post.rawContent as string);
   const relatedPosts = await getRelatedPosts(resolvedParams.slug, 3);
-  
+
   // Get prev/next posts for navigation
   const allPosts = await getAllBlogPosts();
   const currentIndex = allPosts.findIndex(p => p.slug === resolvedParams.slug);
   const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
   const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
-  
+
   return (
     <BlogLayout currentPost={post}>
       <article className="space-y-10">
@@ -101,7 +101,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
             </div>
           </header>
-          
+
           {/* Featured Image */}
           <div className="relative aspect-[21/9] overflow-hidden rounded-lg">
             <Image
@@ -112,7 +112,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               priority
             />
           </div>
-          
+
           {/* Author Info */}
           <div className="flex items-center gap-4 border-y py-4">
             <Avatar className="h-12 w-12">
@@ -127,19 +127,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <ShareLinks url={`/blog/${post.slug}`} title={post.title} />
             </div>
           </div>
-          
-          {/* Desktop Table of Contents */}
-          <div className="hidden xl:block fixed right-[5%] top-32 w-64">
+
+          {/* Table of Contents - Now below author for all devices */}
+          <div className="border rounded-lg p-4 bg-muted/10">
             <Suspense fallback={<TableOfContentsSkeleton />}>
               {toc.length > 0 && <TableOfContents toc={toc} />}
             </Suspense>
           </div>
-          
+
           {/* Article Content */}
           <div className="prose prose-lg dark:prose-invert max-w-none">
             {post.content}
           </div>
-          
+
           {/* Tags */}
           <div className="flex flex-wrap gap-2 pt-6 border-t">
             {post.tags.map(tag => (
@@ -148,10 +148,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </Link>
             ))}
           </div>
-          
+
           {/* Post Navigation */}
           <PostNavigation prevPost={prevPost} nextPost={nextPost} />
-          
+
           {/* Related Posts */}
           <Suspense fallback={<RelatedPostsSkeleton />}>
             {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}

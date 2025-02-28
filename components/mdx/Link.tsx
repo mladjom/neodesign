@@ -1,41 +1,66 @@
-"use client";
+'use client';
 
-import React from 'react';
-import Link from 'next/link';
+import NextLink from 'next/link';
+import { AnchorHTMLAttributes, ReactNode } from 'react';
 import { ExternalLink } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-interface CustomLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+interface CustomLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+  children: ReactNode;
   href?: string;
-  children: React.ReactNode;
+  className?: string;
+  showExternalIcon?: boolean;
 }
 
-export function CustomLink({ href, children, ...rest }: CustomLinkProps) {
-  const isExternal = href?.startsWith('http');
+export function CustomLink({
+  href = '',
+  children,
+  className,
+  showExternalIcon = true,
+  ...props
+}: CustomLinkProps) {
+  const isInternalLink = href && (href.startsWith('/') || href.startsWith('#'));
+  const isAnchorLink = href && href.startsWith('#');
 
-  if (isExternal) {
+  if (isInternalLink) {
+    if (isAnchorLink) {
+      // Handle anchor links within the page
+      return (
+        
+        <a  href={href}
+          className={cn("no-underline", className)}
+          {...props}
+        >
+          {children}
+        </a>
+      );
+    }
+    
+    // Handle internal links to other pages
     return (
-      <a 
-        href={href} 
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="text-primary hover:underline inline-flex items-center gap-1"
-        {...rest}
+      <NextLink 
+        href={href}
+        className={cn("font-medium underline underline-offset-4 decoration-primary/50 hover:decoration-primary", className)} 
+        {...props}
       >
         {children}
-        <ExternalLink className="h-3 w-3" />
-      </a>
+      </NextLink>
     );
   }
 
+  // Handle external links
   return (
-    <Link 
-      href={href || '/'} 
-      className="text-primary hover:underline"
-      {...rest}
+    
+    <a  href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn("font-medium underline underline-offset-4 decoration-primary/50 hover:decoration-primary inline-flex items-center", className)}
+      {...props}
     >
       {children}
-    </Link>
+      {showExternalIcon && (
+        <ExternalLink className="ml-1 h-3 w-3 inline" />
+      )}
+    </a>
   );
 }
-
-export default CustomLink;

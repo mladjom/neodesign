@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { TableOfContentsItem } from '@/types/blog';
+import { motion } from 'framer-motion';
 
 interface TableOfContentsProps {
   toc: TableOfContentsItem[];
