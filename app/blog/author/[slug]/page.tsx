@@ -1,6 +1,6 @@
 // app/blog/author/[slug]/page.tsx
 import { Suspense } from 'react';
-import { getAllBlogPosts } from '@/lib/mdx/mdx-config';
+import { getAllBlogPosts } from '@/lib/blog-service';
 import { BlogGrid } from '@/components/blog/BlogGrid';
 import { BlogGridSkeleton } from '@/components/blog/loading';
 import { notFound } from 'next/navigation';
@@ -12,16 +12,20 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 
 interface AuthorPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: AuthorPageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const authorSlug = resolvedParams.slug;
+  
   const allPosts = await getAllBlogPosts();
-  const author = allPosts.find(post => 
-    post.author.name.toLowerCase().replace(/\s+/g, '-') === params.slug
-  )?.author;
+  const author = allPosts.find(post => {
+    if (!post.author || !post.author.name) return false;
+    return post.author.name.toLowerCase().replace(/\s+/g, '-') === authorSlug;
+  })?.author;
   
   if (!author) {
     return {
@@ -48,22 +52,26 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
 }
 
 export default async function AuthorPage({ params }: AuthorPageProps) {
+  const resolvedParams = await params;
+  const authorSlug = resolvedParams.slug;
+  
   const allPosts = await getAllBlogPosts();
   
-  // Find author by slug
-  const authorSlug = params.slug;
-  const author = allPosts.find(post => 
-    post.author.name.toLowerCase().replace(/\s+/g, '-') === authorSlug
-  )?.author;
+  // Find author by slug with safe navigation
+  const author = allPosts.find(post => {
+    if (!post.author || !post.author.name) return false;
+    return post.author.name.toLowerCase().replace(/\s+/g, '-') === authorSlug;
+  })?.author;
   
   if (!author) {
     notFound();
   }
   
-  // Get all posts by this author
-  const authorPosts = allPosts.filter(post => 
-    post.author.name.toLowerCase().replace(/\s+/g, '-') === authorSlug
-  );
+  // Get all posts by this author with safe navigation
+  const authorPosts = allPosts.filter(post => {
+    if (!post.author || !post.author.name) return false;
+    return post.author.name.toLowerCase().replace(/\s+/g, '-') === authorSlug;
+  });
   
   return (
     <div className="container px-4 py-12 max-w-6xl mx-auto">

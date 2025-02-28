@@ -18,6 +18,7 @@ export function ImageWithCaption({ src, alt, caption }: ImageWithCaptionProps) {
           alt={alt}
           fill
           className="object-cover"
+          sizes="(max-width: 768px) 100vw, 800px"
         />
       </div>
       {caption && (

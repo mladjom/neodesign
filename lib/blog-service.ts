@@ -9,6 +9,7 @@ import remarkGfm from 'remark-gfm';
 import remarkToc from 'remark-toc';
 import readingTime from 'reading-time';
 import { BlogPost, PaginationResult, TableOfContentsItem } from '@/types/blog';
+import { getAuthorBySlug } from './authors';
 
 // MDX Components
 import { Callout } from '@/components/mdx/Callout'; 
@@ -29,7 +30,20 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     
     const fileContent = fs.readFileSync(filePath, 'utf8');
     const { data: frontMatter, content: rawContent } = matter(fileContent);
-    
+ 
+    // Resolve author - could be a slug or a full object
+    let author;
+    if (typeof frontMatter.author === 'string') {
+      // If author is a string, treat it as a slug
+      author = getAuthorBySlug(frontMatter.author);
+    } else if (frontMatter.author && typeof frontMatter.author === 'object') {
+      // If author is already an object, use it as is
+      author = frontMatter.author;
+    } else {
+      // Fallback to editorial team if no author is specified
+      author = getAuthorBySlug('editorial-team');
+    }    
+
     // Make sure we have all required components
     const mdxComponents = {
       Callout, 
@@ -63,7 +77,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       excerpt: frontMatter.excerpt,
       content: mdxSource.content, // React component
       rawContent: rawContent, // Original markdown string for TOC generation
-      author: frontMatter.author,
+      author,
       coverImage: frontMatter.coverImage,
       readingTime: readingTime(rawContent).text,
       tags: frontMatter.tags || [],
@@ -156,7 +170,8 @@ export async function getPaginatedBlogPosts(
   page: number = 1,
   limit: number = 9,
   category?: string,
-  tag?: string
+  tag?: string,
+  authorSlug?: string
 ): Promise<PaginationResult<BlogPost>> {
   const allPosts = await getAllBlogPosts();
   
@@ -173,6 +188,20 @@ export async function getPaginatedBlogPosts(
     );
   }
   
+  if (authorSlug) {
+    filteredPosts = filteredPosts.filter(post => {
+      // Check if author is a string (slug) or an object with a name
+      if (typeof post.author === 'string') {
+        return post.author === authorSlug;
+      } else if (post.author && post.author.name) {
+        // Convert author name to slug for comparison
+        const nameSlug = post.author.name.toLowerCase().replace(/\s+/g, '-');
+        return nameSlug === authorSlug;
+      }
+      return false;
+    });
+  }
+
   // Calculate pagination
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;

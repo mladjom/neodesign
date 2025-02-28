@@ -1,0 +1,225 @@
+---
+title: "HTML Elements Test"
+date: "2025-02-27"
+lastUpdated: "2025-02-28"
+excerpt: "A comprehensive test of how various HTML elements render in our MDX-powered blog."
+author: "alex-morgan"
+coverImage: "https://picsum.photos/1200/630?random=1"
+tags: ["html", "css", "markdown", "testing"]
+category: "Design"
+featured: false
+seo:
+  title: "Testing HTML Elements in MDX"
+  description: "A visual guide to how various HTML elements render in our MDX-powered blog, useful for designers and content creators."
+  keywords: ["html", "elements", "styling", "mdx", "design"]
+---
+
+This page demonstrates how common HTML elements are styled in our MDX-powered blog. It serves as both a test and a reference for content creators.
+
+## Typography
+
+### Headings
+
+Headings are used to create a hierarchical structure for your content.
+
+## Level 2 Heading
+
+### Level 3 Heading
+
+#### Level 4 Heading (styled by global CSS)
+
+##### Level 5 Heading (styled by global CSS)
+
+###### Level 6 Heading (styled by global CSS)
+
+### Paragraphs
+
+Paragraphs are the basic building blocks for text content. This is a standard paragraph with some **bold text**, some *italic text*, and some `inline code`. You can also use [links](#) within paragraphs.
+
+Here's another paragraph to demonstrate spacing between elements. Good typography maintains proper spacing to improve readability while keeping related elements visually connected.
+
+### Blockquotes
+
+Blockquotes are used to highlight quoted content from other sources:
+
+> This is a blockquote. It can contain multiple paragraphs.
+>
+> Here's the second paragraph within the blockquote.
+> 
+> — <cite>Source Attribution</cite>
+
+### Lists
+
+#### Unordered Lists
+
+* Item one
+* Item two
+* Item three with a longer description that wraps to multiple lines to test how the list styling handles longer content
+* Item four
+  * Nested item one
+  * Nested item two
+* Item five
+
+#### Ordered Lists
+
+1. First item
+2. Second item
+3. Third item with some longer content to see how it wraps and aligns with the numbers
+4. Fourth item
+   1. Nested ordered item one
+   2. Nested ordered item two
+5. Fifth item
+
+#### Definition Lists
+
+<dl>
+  <dt>Term 1</dt>
+  <dd>Definition for term 1</dd>
+  <dt>Term 2</dt>
+  <dd>Definition for term 2 with more words to see how the content wraps underneath the term while maintaining proper spacing and alignment</dd>
+</dl>
+
+## Code
+
+### Inline Code
+
+Use `inline code` to highlight variables, functions, or short code snippets within text.
+
+### Code Blocks
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example Code</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Hello World!</h1>
+    <p>This is a code example.</p>
+  </div>
+</body>
+</html>
+```
+
+```javascript
+function calculateTotal(items) {
+  return items
+    .filter(item => item.inStock)
+    .reduce((total, item) => {
+      return total + (item.price * item.quantity);
+    }, 0);
+}
+
+const cart = [
+  { name: 'Widget', price: 9.99, quantity: 2, inStock: true },
+  { name: 'Gadget', price: 19.99, quantity: 1, inStock: true },
+  { name: 'Doohickey', price: 29.99, quantity: 3, inStock: false }
+];
+
+console.log(`Total: $${calculateTotal(cart).toFixed(2)}`);
+```
+
+## Tables
+
+Tables are useful for displaying structured data:
+
+| Header 1 | Header 2 | Header 3 |
+|----------|----------|----------|
+| Cell 1-1 | Cell 1-2 | Cell 1-3 |
+| Cell 2-1 | Cell 2-2 | Cell 2-3 |
+| Cell 3-1 | Cell 3-2 | Cell 3-3 |
+
+A more complex table with alignment:
+
+| Name | Position | Salary | Notes |
+|:-----|:--------:|-------:|:------|
+| John | Developer | $75,000 | Junior position |
+| Jane | Senior Developer | $95,000 | Team lead |
+| Michael | Designer | $70,000 | Part-time |
+| Sarah | Manager | $110,000 | Department head |
+
+
+
+## Images
+
+### Standard Image
+
+![Example image with alt text](https://picsum.photos/800/400?random=2)
+
+### Using Our Custom Image Component
+
+<Image 
+  src="https://picsum.photos/800/400?random=3" 
+  alt="Custom image component example" 
+  caption="This image uses our custom Image component with a caption" 
+  sizes="(max-width: 768px) 100vw, 800px"
+/>
+
+## Horizontal Rule
+
+A horizontal rule can be used to create separation between sections:
+
+---
+
+## Interactive Elements
+
+### Details and Summary
+
+<details>
+  <summary>Click to expand</summary>
+  <p>This content is hidden until the user clicks on the summary element.</p>
+  <p>It can contain any HTML content, including lists, code, etc.</p>
+</details>
+
+### Progress Bar
+
+<label htmlFor="progress">Download progress:</label>
+<progress id="progress" value="70" max="100">70%</progress>
+
+### Meter
+
+<label htmlFor="disk-usage">Disk usage:</label>
+<meter id="disk-usage" value="0.7" min="0" max="1">70%</meter>
+
+## Using Our Custom Components
+
+In addition to standard HTML elements, let's see how our custom components render:
+
+<Callout type="info" title="Testing Callouts">
+  This callout contains **Markdown** *formatting* to test how it renders inside our custom components.
+  
+  * List item 1
+  * List item 2
+</Callout>
+
+<Callout type="warning">
+  This is a warning callout without a title to test different configurations.
+</Callout>
+
+## Combining Different Elements
+
+This section tests how different elements interact when combined:
+
+> ### Heading Inside a Blockquote
+> 
+> This blockquote contains a heading and a list:
+> 
+> 1. First item
+> 2. Second item
+> 
+> And also has a code block:
+> 
+> ```js
+> console.log('Hello from inside a blockquote!');
+> ```
+
+## Conclusion
+
+This page demonstrates how various HTML elements are styled in our blog. It serves as a reference for content creators to ensure consistency and proper rendering across different post types.
+
+<Callout type="success" title="Custom Elements">
+  Remember to check out our guide on [Using Custom MDX Components](/blog/mdx-components) for more advanced content creation options.
+</Callout>
