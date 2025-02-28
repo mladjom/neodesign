@@ -70,7 +70,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
   
-  const toc = extractTableOfContents(post.content as string);
+  const toc = extractTableOfContents(post.rawContent as string);
   const relatedPosts = await getRelatedPosts(resolvedParams.slug, 3);
   
   // Get prev/next posts for navigation
