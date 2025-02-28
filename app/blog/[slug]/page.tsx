@@ -136,7 +136,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* Article Content */}
-          <div className="prose prose-lg dark:prose-invert max-w-none">
+          <div className="prose dark:prose-invert max-w-none">
             {post.content}
           </div>
 

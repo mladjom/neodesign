@@ -12,7 +12,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Button } from '@/components/ui/button';
-import { Menu, X, ChevronRight } from 'lucide-react';
+import { Menu, ChevronRight } from 'lucide-react';
 import {
   Sheet,
   SheetContent,

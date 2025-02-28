@@ -35,9 +35,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       Callout, 
       Image: ImageWithCaption,
       pre: CodeBlock,
-      CodeBlock,
       a: CustomLink,
-      CustomLink
     };
     
     // Compile MDX

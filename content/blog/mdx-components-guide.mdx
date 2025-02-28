@@ -1,0 +1,227 @@
+---
+title: "Using Custom MDX Components in Your Blog"
+date: "2025-02-28"
+lastUpdated: "2025-02-28"
+excerpt: "Learn how to enhance your blog posts with custom MDX components that improve readability and engagement."
+author:
+  name: "Jamie Smith"
+  avatar: "/images/authors/jamie-smith.jpg"
+  title: "Developer Relations"
+  bio: "Jamie is passionate about creating developer-friendly documentation and tools."
+  twitter: "jamiesmith"
+  github: "jamiesmith"
+coverImage: "https://picsum.photos/1200/630"
+tags: ["markdown", "mdx", "next.js", "react"]
+category: "Development"
+featured: true
+seo:
+  title: "Using Custom MDX Components to Enhance Your Blog Posts"
+  description: "A comprehensive guide on implementing and using custom MDX components to create engaging and interactive blog content."
+  keywords: ["mdx", "react components", "markdown", "next.js blog"]
+---
+
+One of the greatest advantages of MDX is the ability to seamlessly blend Markdown with React components. Our blog platform comes with several pre-built MDX components designed to enhance your content and make it more engaging. In this guide, we'll explore each component and demonstrate how to use them effectively in your blog posts.
+
+## Custom Links with `<CustomLink>`
+
+The `CustomLink` component provides smarter link handling based on the destination. It automatically detects:
+
+- Internal links (starting with `/`)
+- External links (everything else)
+
+### How to Use Custom Links
+
+Simply use standard Markdown link syntax and the `CustomLink` component will be applied automatically:
+
+```md
+[Internal link to another page](/blog/another-post)
+
+[External link to MDX docs](https://mdxjs.com/) 
+```
+
+The result will be:
+
+[Internal link to another page](/blog/another-post)
+
+[External link to MDX docs](https://mdxjs.com/)
+
+Notice that external links automatically get an icon and open in a new tab, while internal links use Next.js routing for optimal performance.
+
+## Images with Captions using `<Image>`
+
+For images with optional captions, use the `Image` component. This component is optimized using Next.js Image and includes proper styling and caption support.
+
+### How to Use Images with Captions
+
+Rather than using standard Markdown image syntax, use the `Image` component directly:
+
+```jsx
+<Image 
+  src="https://picsum.photos/800/400" 
+  alt="An example image showing responsive design" 
+  caption="Responsive design across multiple devices" 
+/>
+```
+
+This renders as:
+
+<Image 
+  src="https://picsum.photos/800/400" 
+  alt="An example image showing responsive design" 
+  caption="Responsive design across multiple devices" 
+/>
+
+The caption is optional - if you don't include it, the image will display without a caption.
+
+## Code Blocks with Copy Button using `<CodeBlock>`
+
+The `CodeBlock` component enhances code snippets with syntax highlighting and a copy button that appears on hover.
+
+### How to Use Code Blocks
+
+Standard Markdown code blocks are automatically enhanced with the `CodeBlock` component:
+
+````md
+```javascript
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+console.log(greet('World'));
+```
+````
+
+Which renders as:
+
+```javascript
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+console.log(greet('World'));
+```
+
+Try hovering over the code block to see the copy button appear in the top-right corner!
+
+## Custom Callouts with `<Callout>`
+
+Callouts are perfect for highlighting important information in your blog posts. Our `Callout` component supports four different types: info, warning, success, and error.
+
+### How to Use Callouts
+
+Use the `Callout` component directly in your MDX:
+
+```jsx
+<Callout type="info" title="Did you know?">
+  MDX combines the power of Markdown and React components.
+</Callout>
+
+<Callout type="warning" title="Caution">
+  Always back up your content before making major changes.
+</Callout>
+
+<Callout type="success" title="Tip">
+  You can nest other Markdown elements inside callouts.
+</Callout>
+
+<Callout type="error" title="Error">
+  This will not work if you forget to import the component.
+</Callout>
+```
+
+The callouts will render like this:
+
+<Callout type="info" title="Did you know?">
+  MDX combines the power of Markdown and React components.
+</Callout>
+
+<Callout type="warning" title="Caution">
+  Always back up your content before making major changes.
+</Callout>
+
+<Callout type="success" title="Tip">
+  You can nest other Markdown elements inside callouts.
+</Callout>
+
+<Callout type="error" title="Error">
+  This will not work if you forget to import the component.
+</Callout>
+
+The title parameter is optional, so you can create simpler callouts if needed:
+
+```jsx
+<Callout type="info">
+  Here's some important information without a title.
+</Callout>
+```
+
+Which renders as:
+
+<Callout type="info">
+  Here's some important information without a title.
+</Callout>
+
+## Combining Components
+
+The real power of MDX comes from combining these components to create rich, interactive content. Here's an example that combines multiple components:
+
+```jsx
+## Optimizing Your React Application
+
+<Callout type="info" title="Prerequisites">
+  Before following this guide, make sure you have:
+  
+  - Node.js version 16 or higher
+  - A basic understanding of React
+  - An existing Next.js project
+</Callout>
+
+First, install the required dependencies:
+
+```bash
+npm install --save-dev lighthouse performance-monitor
+```
+
+<Image 
+  src="https://picsum.photos/800/450" 
+  alt="Performance dashboard showing metrics" 
+  caption="Lighthouse performance dashboard after optimization" 
+/>
+
+Check out our [detailed performance guide](/blog/react-performance) for more information or visit [React's official documentation](https://reactjs.org/docs/optimizing-performance.html).
+```
+
+## Troubleshooting
+
+### Components Not Rendering
+
+If your custom components aren't rendering properly:
+
+<Callout type="error" title="Common Issues">
+  - Ensure the component is properly imported in your MDX configuration
+  - Check for syntax errors in your MDX file
+  - Verify that you're using the correct component name and props
+</Callout>
+
+### Syntax Highlighting Not Working
+
+If syntax highlighting isn't working for your code blocks:
+
+```jsx
+// This should be highlighted
+const MyComponent = () => {
+  return <div>Hello World</div>;
+};
+```
+
+Make sure you have the `rehypePrism` plugin configured correctly in your MDX setup.
+
+## Conclusion
+
+Custom MDX components are a powerful way to enhance your blog content, making it more engaging and interactive for your readers. By leveraging these pre-built components, you can create professional-looking content without writing custom CSS or JavaScript for each post.
+
+We hope this guide helps you make the most of our MDX components. Happy blogging!
+
+<Callout type="success" title="Next Steps">
+  Ready to start using these components? Create a new blog post and experiment with the different components to see what works best for your content!
+</Callout>

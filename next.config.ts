@@ -15,20 +15,17 @@ const nextConfig: NextConfig = {
   // Configure pageExtensions to include md and mdx
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   
-  // Your existing image configuration
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'piscum.photos',
+        hostname: 'picsum.photos', 
         port: '',
-        pathname: '/account123/**',
-        search: '',
+        pathname: '/**', // Allow any path under picsum.photos
       },
     ],
   },
   
-  // Other Next.js config options
   reactStrictMode: true,
 };
 
