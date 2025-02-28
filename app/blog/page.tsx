@@ -3,7 +3,7 @@ import {
   getPaginatedBlogPosts, 
   getAllCategories, 
   getFeaturedPosts 
-} from '@/lib/mdx/mdx-config';
+} from '@/lib/blog-service';
 import { BlogSearch } from '@/components/blog/BlogSearch';
 import { FeaturedPost } from '@/components/blog/FeaturedPost';
 import { CategoryFilter } from '@/components/blog/CategoryFilter';

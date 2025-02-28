@@ -5,7 +5,7 @@ import {
   extractTableOfContents, 
   getRelatedPosts,
   getAllBlogPosts
-} from '@/lib/mdx/mdx-config';
+} from '@/lib/blog-service';
 import { TableOfContents } from '@/components/blog/TableOfContents';
 import { RelatedPosts } from '@/components/blog/RelatedPosts';
 import { ShareLinks } from '@/components/blog/ShareLinks';

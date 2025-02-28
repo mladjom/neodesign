@@ -3,7 +3,7 @@ import {
   getAllTags, 
   getAllCategories,
   getFeaturedPosts 
-} from '@/lib/mdx/mdx-config';
+} from '@/lib/blog-service';
 import { NewsletterSignup } from './NewsletterSignup';
 import { PopularPostsSidebar } from './PopularPostsSidebar';
 import { AuthorCard } from './AuthorCard';

@@ -1,4 +1,3 @@
-// lib/mdx/mdx-config.ts
 import path from 'path';
 import fs from 'fs';
 import matter from 'gray-matter';
@@ -12,7 +11,6 @@ import readingTime from 'reading-time';
 import { BlogPost, PaginationResult, TableOfContentsItem } from '@/types/blog';
 
 // MDX Components
-import { components } from './mdx-components';
 import { Callout } from '@/components/mdx/Callout'; 
 import { ImageWithCaption } from '@/components/mdx/Image';
 import { CodeBlock } from '@/components/mdx/CodeBlock';
@@ -34,7 +32,6 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     
     // Make sure we have all required components
     const mdxComponents = {
-      ...components,
       Callout, 
       Image: ImageWithCaption,
       pre: CodeBlock,

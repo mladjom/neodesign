@@ -9,12 +9,10 @@ import { format } from "date-fns";
 
 interface Post {
   slug: string;
-  frontmatter: {
-    title: string;
-    excerpt: string;
-    date: string;
-    coverImage?: string;
-  };
+  title: string;      // Instead of frontmatter.title
+  excerpt: string;    // Instead of frontmatter.excerpt
+  date: string;       // Instead of frontmatter.date
+  coverImage?: string; // Instead of frontmatter.coverImage
 }
 
 interface BlogPostsProps {
@@ -49,18 +47,18 @@ export function BlogPosts({ posts }: BlogPostsProps) {
                   <Card className="overflow-hidden h-full transition-transform hover:scale-[1.02]">
                     <div className="aspect-video">
                       <img
-                        src={post.frontmatter.coverImage || `https://picsum.photos/seed/${post.slug}/400/250`}
-                        alt={post.frontmatter.title}
+                        src={post.coverImage || `https://picsum.photos/seed/${post.slug}/400/250`}
+                        alt={post.title}
                         className="object-cover w-full h-full"
                       />
                     </div>
                     <div className="p-6 space-y-4">
                       <p className="text-sm text-muted-foreground">
-                        {format(new Date(post.frontmatter.date), 'MMM dd, yyyy')}
+                        {format(new Date(post.date), 'MMM dd, yyyy')}
                       </p>
-                      <h3 className="text-xl font-semibold">{post.frontmatter.title}</h3>
+                      <h3 className="text-xl font-semibold">{post.title}</h3>
                       <p className="text-muted-foreground line-clamp-2">
-                        {post.frontmatter.excerpt}
+                        {post.excerpt}
                       </p>
                       <Button variant="link" className="p-0">
                         Read More →
