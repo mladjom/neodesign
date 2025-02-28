@@ -3,7 +3,7 @@ import { Author } from '@/types/blog';
 export const authors: Record<string, Author> = {
   "alex-morgan": {
     name: "Alex Morgan",
-    avatar: "/images/authors/alex-morgan.jpg",
+    avatar: "/images/authors/alex-morgan.jpeg",
     title: "Senior Developer",
     bio: "Alex specializes in frontend development with a focus on React and Next.js. With over 8 years of experience building web applications, Alex loves sharing practical insights about modern development techniques.",
     twitter: "alexmorg",

@@ -1,0 +1,192 @@
+---
+title: "Managing Authors in Your Blog"
+date: "2025-02-28"
+lastUpdated: "2025-02-28"
+excerpt: "A comprehensive guide to setting up, customizing, and managing authors in your blog, including author profiles, avatars, and attribution."
+author: "editorial-team"
+coverImage: "https://picsum.photos/1200/630?random=4"
+tags: ["blog", "authors", "content management", "avatars"]
+category: "Tutorial"
+featured: true
+seo:
+  title: "How to Set Up and Manage Blog Authors | Complete Guide"
+  description: "Learn how to create author profiles, add professional avatars, and properly attribute content in your blog with this comprehensive guide."
+  keywords: ["blog authors", "author management", "content attribution", "author avatars"]
+---
+
+## Introduction to the Author System
+
+A well-structured author system adds credibility to your blog and helps readers connect with the people behind your content. Our blog platform includes a robust author management system that allows you to create detailed author profiles, attribute content correctly, and maintain consistent author information across all posts.
+
+## Setting Up Author Profiles
+
+Each author in your blog has a dedicated profile that includes:
+
+- **Name** - The author's full name
+- **Avatar** - A professional profile image
+- **Title** - The author's professional title or role
+- **Bio** - A short description of the author's expertise and background
+- **Social links** - Optional links to the author's Twitter, GitHub, and LinkedIn profiles
+
+### Creating Author Profiles
+
+Authors are managed centrally in the `lib/authors.ts` file. To add a new author, follow this structure:
+
+```typescript
+"author-slug": {
+  name: "Author Name",
+  avatar: "/images/authors/author-slug.jpg",
+  title: "Professional Title",
+  bio: "A short biography of the author that explains their expertise and background.",
+  twitter: "twitterhandle", // optional
+  github: "githubusername", // optional
+  linkedin: "linkedin-profile" // optional
+}
+```
+
+The "author-slug" key is important as it will be used in your MDX frontmatter and in the URL for the author's page (`/blog/author/author-slug`).
+
+### Adding the Author to a Post
+
+Once you've created an author profile, you can attribute blog posts to that author by adding their slug to the post's frontmatter:
+
+```yaml
+---
+title: "Your Blog Post Title"
+date: "2025-02-28"
+excerpt: "A short summary of your blog post."
+author: "author-slug"
+# Other frontmatter fields...
+---
+```
+
+## Creating Professional Author Avatars
+
+Professional-looking avatars enhance your blog's credibility and help readers connect with your authors. Here are some options for creating author avatars:
+
+### Free Resources for Author Avatars
+
+1. **Unsplash** - Search for professional headshots and portraits
+2. **UI Faces** - Diverse, real-looking profile photos
+3. **Generated Photos** - AI-generated faces that are free for commercial use
+4. **This Person Does Not Exist** - AI-generated faces for non-specific author representations
+
+### Guidelines for Author Avatars
+
+For best results, follow these guidelines when creating author avatars:
+
+- Use square images with dimensions of 256x256 pixels or larger
+- Ensure the face is centered and clearly visible
+- Use consistent lighting and style across all author avatars
+- Consider your brand's overall aesthetic
+
+### Creating the Editorial Team Avatar
+
+For general content or posts with multiple contributors, you can use the "editorial-team" author. Consider creating a special avatar for this profile that represents your collective team:
+
+- A stylized icon of multiple people
+- Your company logo or a variation of it
+- An abstract design representing collaboration
+- A workspace or desk scene that represents content creation
+
+<Image 
+  src="https://picsum.photos/800/400?random=5" 
+  alt="Example of different author avatar styles" 
+  caption="Examples of different styles for author avatars: professional headshot, illustrated avatar, and team representation" 
+/>
+
+## Author Pages
+
+Each author automatically gets their own dedicated page at `/blog/author/[author-slug]` that displays:
+
+- The author's complete profile information
+- Social media links
+- All posts written by that author
+
+These pages help readers discover more content from authors they enjoy and learn more about their expertise.
+
+## The Default Author System
+
+We've included several default authors that you can use right away:
+
+<Callout type="info" title="Default Authors">
+  - **alex-morgan** - Senior Developer
+  - **taylor-chen** - UX Designer
+  - **jordan-patel** - DevOps Engineer
+  - **editorial-team** - For general content or posts with multiple contributors
+</Callout>
+
+To use one of these default authors, simply include their slug in your post's frontmatter:
+
+```yaml
+author: "alex-morgan"
+```
+
+## Advanced Author Management
+
+### Author Slugs and URLs
+
+Author slugs are used to create URLs for author pages. For example, an author with the slug "alex-morgan" will have the URL `/blog/author/alex-morgan`.
+
+If you're creating a new author, ensure that:
+
+1. The slug is lowercase
+2. Spaces are replaced with hyphens
+3. Special characters are removed
+4. The slug is unique across all authors
+
+### Customizing Author Information
+
+You can update author information at any time by editing the `lib/authors.ts` file. Changes will be reflected across all posts attributed to that author.
+
+### Creating Your Own Avatar
+
+If you're creating your own avatar:
+
+1. Save the image in the `/public/images/authors/` directory
+2. Name the file with the same slug as the author (e.g., `alex-morgan.jpg`)
+3. Make sure the image is square and at least 256x256 pixels
+4. Update the author's avatar path in `lib/authors.ts`
+
+## Best Practices for Author Attribution
+
+For a professional blog, follow these best practices:
+
+1. **Consistent Attribution** - Every post should have an author
+2. **Accurate Information** - Keep author titles and bios up-to-date
+3. **Professional Avatars** - Use high-quality, professional-looking images
+4. **Complete Profiles** - Fill out all author information fields
+5. **Social Linking** - Add relevant social media links when available
+
+<Callout type="warning">
+  Avoid using placeholder or temporary author information in published posts. If a post has multiple contributors or no specific author, use the "editorial-team" author.
+</Callout>
+
+## Troubleshooting Common Issues
+
+### Author Not Appearing on the Post
+
+If an author isn't appearing correctly on a post, check that:
+
+- The author slug in the frontmatter exactly matches a slug in `lib/authors.ts`
+- The frontmatter is properly formatted (check for typos or missing colons)
+- You've rebuilt or refreshed the site after adding a new author
+
+### Avatar Not Displaying
+
+If an author's avatar isn't displaying properly:
+
+- Verify the image path is correct in `lib/authors.ts`
+- Check that the image exists in the specified location
+- Ensure the image format is supported (JPG, PNG, or SVG)
+- Try clearing your browser cache
+
+## Conclusion
+
+A well-maintained author system adds professionalism and credibility to your blog. By creating detailed author profiles with professional avatars, you help readers connect with your content creators and build trust with your audience.
+
+Take time to set up your authors correctly, and remember to keep their information up-to-date as your team and expertise evolve.
+
+<Callout type="success" title="Next Steps">
+  Ready to set up your authors? Start by editing the `lib/authors.ts` file to customize the default authors or add your own team members.
+</Callout>
