@@ -1,4 +1,3 @@
-import { unstable_cache } from 'next/cache';
 import { ProjectDetail } from "@/types/project";
 
 const projects: ProjectDetail[] = [
@@ -169,35 +168,16 @@ const projects: ProjectDetail[] = [
   }
 ];
 
-// Cache the project data with a revalidation period
-export const getProjectBySlug = unstable_cache(
-  async (slug: string): Promise<ProjectDetail> => {
-    // Simulate database lookup delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const project = projects.find(p => p.slug === slug);
-    if (!project) {
-      throw new Error(`Project not found: ${slug}`);
-    }
-    
-    return project;
-  },
-  ['project'],
-  {
-    revalidate: 3600, // Revalidate every hour
-    tags: ['projects']
+export async function getProjectBySlug(slug: string): Promise<ProjectDetail> {
+  const project = projects.find(p => p.slug === slug);
+  
+  if (!project) {
+    throw new Error(`Project not found: ${slug}`);
   }
-);
+  
+  return project;
+}
 
-export const getAllProjects = unstable_cache(
-  async (): Promise<ProjectDetail[]> => {
-    // Simulate database lookup delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return projects;
-  },
-  ['projects'],
-  {
-    revalidate: 3600, // Revalidate every hour
-    tags: ['projects']
-  }
-);
+export async function getAllProjects(): Promise<ProjectDetail[]> {
+  return projects;
+}

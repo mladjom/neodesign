@@ -18,9 +18,10 @@ export const metadata: Metadata = {
   },
 };
 
-const categories = ["E-commerce", "Web Apps", "Mobile", "Branding"];
+const categories = ["E-commerce", "SaaS", "Health & Fitness", "Mobile"];
 
 export default async function ProjectsPage() {
+  // Fetch projects directly without caching
   const projects = await getAllProjects();
 
   return (

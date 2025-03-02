@@ -13,16 +13,7 @@ export const services = [
     },
   ];
   
-  export const projects = [
-    {
-      title: "E-commerce Platform",
-      description: "A modern e-commerce solution with seamless user experience and robust functionality.",
-    },
-    {
-      title: "SaaS Dashboard",
-      description: "An intuitive dashboard interface for managing complex business operations.",
-    },
-  ];
+
   
   export const testimonials = [
     {
