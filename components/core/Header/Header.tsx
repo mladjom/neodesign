@@ -1,6 +1,6 @@
-import { Logo } from './Logo'
-import { DesktopNav } from './DesktopNav'
-import { MobileNav } from './MobileNav'
+import { Logo } from '@/components/common/Logo';
+import { DesktopNav } from '@/components/core/Header/DesktopNav'
+import { MobileNav } from '@/components/core/Header/MobileNav'
 
 export const Header = () => {
   return (

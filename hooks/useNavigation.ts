@@ -9,9 +9,13 @@ export const useNavigation = () => {
   }
 
   return {
+    // Existing properties
     menuItems: navigation.menuItems,
     services: navigation.services,
     activeSubmenu,
     toggleSubmenu,
+    
+    companyLinks: navigation.company,
+    legalLinks: navigation.legal,
   }
 }

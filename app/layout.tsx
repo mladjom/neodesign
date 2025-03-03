@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import {Header} from "@/components/layout/Header";
-import Footer from "@/components/Footer"; // Default import
-import { SimpleFooter, ExtendedFooter } from "@/components/Footer"; // Named imports
+import "@/styles/globals.css";
+import { Header } from "@/components/core/Header";
+import { Footer } from "@/components/core/Footer"; 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -24,7 +23,7 @@ export default function RootLayout({
         <main className="container mx-auto min-h-screen">
           {children}
         </main>
-        <ExtendedFooter />
+        <Footer /> 
       </body>
     </html>
   );

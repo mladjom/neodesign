@@ -22,4 +22,14 @@ export const navigation = {
       { title: 'Blog', href: '/blog' },
       { title: 'About', href: '/about' },
     ],
-  }
+    company: [
+      { title: "About", href: "/about" },
+      { title: "Projects", href: "/projects" },
+      { title: "Blog", href: "/blog" },
+      { title: "Careers", href: "/careers" },
+    ],
+    legal: [
+      { title: "Privacy Policy", href: "/privacy" },
+      { title: "Terms of Service", href: "/terms" },
+    ],
+}
