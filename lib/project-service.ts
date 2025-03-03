@@ -2,6 +2,61 @@ import { ProjectDetail } from "@/types/project";
 
 const projects: ProjectDetail[] = [
   {
+    "slug": "image-processing-tool",
+    "title": "Image Processing Tool",
+    "client": "Internal Project",
+    "timeline": "2 months",
+    "role": "Frontend Development",
+    "thumbnail": "/images/projects/image-processing-tool_600x400.webp",
+    "technologies": ["Next.js", "React", "TypeScript", "Tailwind CSS", "shadcn/ui", "HTML5 Canvas"],
+    "category": "Web Tools",
+    "summary": "An intuitive browser-based tool for resizing, cropping, and optimizing images",
+    "description": "A powerful image processing utility that allows users to transform images with various aspect ratios, cropping options, and optimization settings—all without server uploads.",
+    "outcomes": [
+      "100% client-side processing for privacy and speed",
+      "Support for multiple image formats (JPEG, PNG, WebP)",
+      "Intuitive interface with drag-and-drop functionality"
+    ],
+    "challenge": "Web developers and designers frequently need to resize and optimize images for different platforms and devices. Existing tools often require uploading to servers (privacy concerns) or installing desktop applications.",
+    "solution": "We built a completely browser-based image processor using HTML5 Canvas and React that performs all transformations locally without any server uploads. The tool features an intuitive interface with real-time preview capabilities.",
+    "process": [
+      {
+        "title": "Research & Planning",
+        "description": "Identified key image processing needs for web developers and mapped out core features and user interface.",
+        "image": "/images/projects/ui-ux-design_600x400.webp"
+      },
+      {
+        "title": "UI/UX Design",
+        "description": "Created a clean, intuitive interface using shadcn/ui components with contextual help and tooltips for advanced features.",
+        "image": "/images/projects/ui-ux-design_600x400.webp"
+      },
+      {
+        "title": "Implementation",
+        "description": "Built the application using React and HTML5 Canvas APIs for image transformation with comprehensive error handling.",
+        "image": "/images/projects/implementation_600x400.webp"
+      }
+    ],
+    "testimonial": {
+      "quote": "This tool has become an essential part of my workflow. Being able to quickly transform images without uploading them to a server is a game-changer for privacy and efficiency.",
+      "author": "Alex Chen",
+      "role": "Frontend Developer"
+    },
+    "results": [
+      {
+        "metric": "Processing Speed",
+        "value": "< 1 second"
+      },
+      {
+        "metric": "Supported Formats",
+        "value": "3+"
+      },
+      {
+        "metric": "File Size Reduction",
+        "value": "Up to 70%"
+      }
+    ]
+  },
+  {
     slug: "e-commerce-platform",
     title: "E-commerce Platform Redesign",
     client: "Fashion Retailer",

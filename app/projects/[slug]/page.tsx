@@ -1,166 +1,171 @@
-// app/blog/[slug]/page.tsx
-import { Suspense } from 'react';
-import { notFound } from 'next/navigation';
-import { 
-  getBlogPostBySlug, 
-  extractTableOfContents, 
-  getRelatedPosts,
-  getAllBlogPosts
-} from '@/lib/mdx/mdx-config';
-import { TableOfContents } from '@/components/blog/TableOfContents';
-import { RelatedPosts } from '@/components/blog/RelatedPosts';
-import { ShareLinks } from '@/components/blog/ShareLinks';
-import { PostNavigation } from '@/components/blog/PostNavigation';
-import { BlogLayout } from '@/components/blog/BlogLayout';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { 
-  BlogDetailSkeleton, 
-  TableOfContentsSkeleton, 
-  RelatedPostsSkeleton 
-} from '@/components/blog/loading';
-import Image from 'next/image';
-import Link from 'next/link';
-import { formatDate } from '@/lib/utils';
-import { Calendar, Clock } from 'lucide-react';
-import { Metadata } from 'next';
+"use client";
 
-interface BlogPostPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { ProjectHero } from "@/components/projects/ProjectHero";
+import { ProjectOverview } from "@/components/projects/ProjectOverview";
+import { ProjectProcess } from "@/components/projects/ProjectProcess";
+import { getProjectBySlug } from "@/lib/project-service";
+import { ProjectDetail } from "@/types/project";
+import { Skeleton } from "@/components/ui/skeleton";
+import { use } from "react";
+
+interface PageProps {
+  params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const resolvedParams = await params;
-  const post = await getBlogPostBySlug(resolvedParams.slug);
-  
-  if (!post) {
-    return {
-      title: 'Post Not Found',
-      description: 'The requested blog post could not be found.',
-    };
-  }
-  
-  return {
-    title: post.seo?.title || post.title,
-    description: post.seo?.description || post.excerpt,
-    openGraph: {
-      title: post.seo?.title || post.title,
-      description: post.seo?.description || post.excerpt,
-      type: 'article',
-      publishedTime: post.date,
-      modifiedTime: post.lastUpdated,
-      authors: [post.author.name],
-      images: [
-        {
-          url: post.seo?.ogImage || post.coverImage,
-          alt: post.title,
-        },
-      ],
-    },
-    keywords: post.seo?.keywords || post.tags,
-  };
-}
+export default function ProjectPage({ params }: PageProps) {
+  // Unwrap the params Promise using React.use()
+  const { slug } = use(params);
+  const [project, setProject] = useState<ProjectDetail | null>(null);
+  const [loading, setLoading] = useState(true);
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const resolvedParams = await params;
-  const post = await getBlogPostBySlug(resolvedParams.slug);
-  
-  if (!post) {
-    notFound();
+  useEffect(() => {
+    async function loadProject() {
+      try {
+        const data = await getProjectBySlug(slug);
+        setProject(data);
+      } catch (error) {
+        console.error("Failed to load project:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProject();
+  }, [slug]);
+
+  if (loading) {
+    return <ProjectSkeleton />;
   }
-  
-  // Use the rawContent for TOC extraction
-  const toc = extractTableOfContents(post.rawContent);
-  const relatedPosts = await getRelatedPosts(resolvedParams.slug, 3);
-  
-  // Get prev/next posts for navigation
-  const allPosts = await getAllBlogPosts();
-  const currentIndex = allPosts.findIndex(p => p.slug === resolvedParams.slug);
-  const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
-  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
-  
+
+  if (!project) {
+    return <ProjectNotFound />;
+  }
+
   return (
-    <BlogLayout currentPost={post}>
-      <article className="space-y-10">
-        <Suspense fallback={<BlogDetailSkeleton />}>
-          {/* Article Header */}
-          <header className="text-center mx-auto max-w-3xl space-y-6">
-            <Link href={`/blog?category=${post.category.toLowerCase()}`}>
-              <Badge className="mb-4">{post.category}</Badge>
-            </Link>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">{post.title}</h1>
-            <p className="text-xl text-muted-foreground">{post.excerpt}</p>
-            <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <Calendar className="h-4 w-4" />
-                <span>{formatDate(post.date)}</span>
+    <div className="space-y-20">
+      <ProjectHero
+        title={project.title}
+        description={project.description}
+        technologies={project.technologies}
+      />
+
+      <ProjectOverview
+        client={project.client}
+        timeline={project.timeline}
+        role={project.role}
+        technologies={project.technologies}
+        thumbnail={project.thumbnail}
+        title={project.title}
+      />
+
+      <ProjectProcess steps={project.process} />
+
+      {/* Challenge & Solution Section */}
+      <section className="py-20 bg-muted/50">
+        <div className="container px-4">
+          <div className="grid gap-12 md:grid-cols-2">
+            <motion.div
+              className="space-y-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl font-bold">The Challenge</h2>
+              <p className="text-muted-foreground">{project.challenge}</p>
+            </motion.div>
+            <motion.div
+              className="space-y-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl font-bold">The Solution</h2>
+              <p className="text-muted-foreground">{project.solution}</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Results Section */}
+      <section className="py-20 bg-muted/50">
+        <div className="container px-4">
+          <motion.div
+            className="space-y-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl font-bold text-center">Results</h2>
+            <div className="grid gap-8 md:grid-cols-3">
+              {project.results.map((result) => (
+                <div key={result.metric} className="text-center space-y-2">
+                  <p className="text-4xl font-bold text-primary">{result.value}</p>
+                  <p className="text-muted-foreground">{result.metric}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Testimonial Section */}
+      {project.testimonial && (
+        <section className="py-20">
+          <div className="container px-4">
+            <motion.div
+              className="max-w-3xl mx-auto text-center space-y-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <blockquote className="text-2xl italic">
+                "{project.testimonial.quote}"
+              </blockquote>
+              <div>
+                <p className="font-medium">{project.testimonial.author}</p>
+                <p className="text-muted-foreground">{project.testimonial.role}</p>
               </div>
-              <div className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                <span>{post.readingTime}</span>
-              </div>
-            </div>
-          </header>
-          
-          {/* Featured Image */}
-          <div className="relative aspect-[21/9] overflow-hidden rounded-lg">
-            <Image
-              src={post.coverImage}
-              alt={post.title}
-              fill
-              className="object-cover"
-              priority
-            />
+            </motion.div>
           </div>
-          
-          {/* Author Info */}
-          <div className="flex items-center gap-4 border-y py-4">
-            <Avatar className="h-12 w-12">
-              <AvatarImage src={post.author.avatar} alt={post.author.name} />
-              <AvatarFallback>{post.author.name.charAt(0)}</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-medium">{post.author.name}</p>
-              <p className="text-sm text-muted-foreground">{post.author.title}</p>
+        </section>
+      )}
+    </div>
+  );
+}
+
+function ProjectSkeleton() {
+  return (
+    <div className="space-y-20">
+      <section className="pt-20 md:pt-32">
+        <div className="container px-4">
+          <div className="max-w-4xl mx-auto space-y-6">
+            <div className="h-8 w-32">
+              <Skeleton className="h-full w-full" />
             </div>
-            <div className="ml-auto">
-              <ShareLinks url={`/blog/${post.slug}`} title={post.title} />
+            <div className="h-16">
+              <Skeleton className="h-full w-full" />
+            </div>
+            <div className="h-12">
+              <Skeleton className="h-full w-full" />
             </div>
           </div>
-          
-          {/* Desktop Table of Contents */}
-          <div className="hidden xl:block fixed right-[5%] top-32 w-64">
-            <Suspense fallback={<TableOfContentsSkeleton />}>
-              {toc.length > 0 && <TableOfContents toc={toc} />}
-            </Suspense>
-          </div>
-          
-          {/* Article Content */}
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            {/* Render the React component directly */}
-            {post.content}
-          </div>
-          
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 pt-6 border-t">
-            {post.tags.map(tag => (
-              <Link key={tag} href={`/blog?tag=${tag.toLowerCase()}`}>
-                <Badge variant="outline">{tag}</Badge>
-              </Link>
-            ))}
-          </div>
-          
-          {/* Post Navigation */}
-          <PostNavigation prevPost={prevPost} nextPost={nextPost} />
-          
-          {/* Related Posts */}
-          <Suspense fallback={<RelatedPostsSkeleton />}>
-            {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
-          </Suspense>
-        </Suspense>
-      </article>
-    </BlogLayout>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function ProjectNotFound() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center space-y-4">
+        <h1 className="text-4xl font-bold">Project Not Found</h1>
+        <p className="text-muted-foreground">
+          The project you're looking for doesn't exist or has been removed.
+        </p>
+      </div>
+    </div>
   );
 }
