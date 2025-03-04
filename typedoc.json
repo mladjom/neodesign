@@ -1,0 +1,10 @@
+{
+  "entryPoints": ["lib", "hooks", "types", "components"],
+  "entryPointStrategy": "expand",
+  "out": "docs",
+  "tsconfig": "tsconfig.json",
+  "includeVersion": true,
+  "exclude": ["node_modules", "**/*.test.ts", "**/*.test.tsx"],
+  "hideGenerator": true,
+  "plugin": ["typedoc-plugin-markdown"]
+}

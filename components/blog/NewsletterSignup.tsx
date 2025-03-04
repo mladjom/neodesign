@@ -1,3 +1,4 @@
+// components/blog/NewsletterSignup.tsx - Updated with API integration
 'use client';
 
 import { useState } from 'react';
@@ -5,7 +6,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Send, CheckCircle2 } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export function NewsletterSignup() {
   const [email, setEmail] = useState('');
@@ -25,14 +26,26 @@ export function NewsletterSignup() {
     try {
       setIsSubmitting(true);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Send to the API
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to subscribe');
+      }
       
       // Success
       setIsSubscribed(true);
       setEmail('');
     } catch (err) {
-      setError('Failed to subscribe. Please try again.');
+      setError(err instanceof Error ? err.message : 'Failed to subscribe. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -75,7 +88,10 @@ export function NewsletterSignup() {
                   aria-label="Email address"
                 />
                 {error && (
-                  <p className="text-sm text-red-500">{error}</p>
+                  <div className="flex items-center gap-2 text-sm text-red-500">
+                    <AlertCircle className="h-4 w-4" />
+                    <p>{error}</p>
+                  </div>
                 )}
                 <Button type="submit" className="w-full" disabled={isSubmitting}>
                   {isSubmitting ? (

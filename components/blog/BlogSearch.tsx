@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, X, Loader2 } from 'lucide-react';
+import { trackSearch } from '@/lib/analytics';
 
 export function BlogSearch() {
   const router = useRouter();
@@ -25,6 +26,9 @@ export function BlogSearch() {
     e.preventDefault();
     
     if (query.trim()) {
+      // Track search query
+      trackSearch(query.trim());
+      
       startTransition(() => {
         const params = new URLSearchParams(searchParams);
         params.set('q', query.trim());

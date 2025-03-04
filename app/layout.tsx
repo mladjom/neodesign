@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "@/styles/globals.css";
+import { ThemeProvider } from '@/providers/ThemeProvider';
+import { AccessibilityProvider } from '@/components/accessibility/AccessibilityContext';
 import { Header } from "@/components/core/Header";
-import { Footer } from "@/components/core/Footer"; 
+import { Footer } from "@/components/core/Footer";
+import { AccessibilityControls } from '@/components/accessibility/AccessibilityControls';
+import { baseMetadata } from '@/config/metadata';
+import "@/styles/globals.css";
+
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "NeoDesign - Web Design & Development Agency",
-  description: "Professional web design and development services for modern businesses",
-  keywords: "web design, web development, UI/UX design, digital agency",
-};
+export const metadata: Metadata = baseMetadata;
 
 export default function RootLayout({
   children,
@@ -17,13 +18,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} min-h-screen flex flex-col`}>
-        <Header />
-        <main className="container mx-auto min-h-screen">
-          {children}
-        </main>
-        <Footer /> 
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AccessibilityProvider>
+            <Header />
+            <main className="container mx-auto min-h-screen">
+              {children}
+            </main>
+            <Footer />
+            <AccessibilityControls />
+          </AccessibilityProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

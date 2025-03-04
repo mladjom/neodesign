@@ -1,3 +1,4 @@
+// types/project.ts - Enhance with more specific types
 export interface Project {
   slug: string;
   title: string;
@@ -10,23 +11,37 @@ export interface Project {
   summary: string;
   description: string;
   outcomes: string[];
+  // Add more specific types
+  projectUrl?: string; // Optional project URL
+  startDate?: Date; // Project start date
+  endDate?: Date; // Project end date
+  priority?: number; // For sorting projects
 }
 
+// Add more specific types for process steps
+export interface ProcessStep {
+  title: string;
+  description: string;
+  image: string;
+  imageAlt?: string; // For accessibility
+  order: number; // For sorting steps
+}
+
+// Enhance ProjectDetail interface
 export interface ProjectDetail extends Project {
   challenge: string;
   solution: string;
-  process: {
-    title: string;
-    description: string;
-    image: string;
-  }[];
+  process: ProcessStep[];
   testimonial?: {
     quote: string;
     author: string;
     role: string;
+    company?: string; // Add company name
+    avatarUrl?: string; // Add avatar for testimonial
   };
   results: {
     metric: string;
     value: string;
+    description?: string; // Add more context to results
   }[];
 }

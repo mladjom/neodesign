@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getAllTags } from '@/lib/mdx/mdx-config';
+import { getAllTags } from '@/lib/blog-service';
 import { BlogSearch } from '@/components/blog/BlogSearch';
 import { TagCloudSkeleton } from '@/components/blog/loading';
 import { Metadata } from 'next';

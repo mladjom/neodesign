@@ -64,6 +64,67 @@ body {
   }
 }
 
+/* High contrast mode */
+.high-contrast {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --primary: 240 100% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 0%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 90%;
+  --muted-foreground: 0 0% 0%;
+  --border: 0 0% 0%;
+}
+
+.high-contrast a {
+  text-decoration: underline;
+}
+
+.high-contrast button:focus,
+.high-contrast a:focus {
+  outline: 3px solid #ffff00 !important;
+  outline-offset: 2px;
+}
+
+/* Font size adjustments */
+.font-size-large {
+  font-size: 1.1rem;
+}
+
+.font-size-large h1 {
+  font-size: 2.5rem;
+}
+
+.font-size-large h2 {
+  font-size: 2rem;
+}
+
+.font-size-large h3 {
+  font-size: 1.75rem;
+}
+
+.font-size-x-large {
+  font-size: 1.25rem;
+}
+
+.font-size-x-large h1 {
+  font-size: 3rem;
+}
+
+.font-size-x-large h2 {
+  font-size: 2.5rem;
+}
+
+.font-size-x-large h3 {
+  font-size: 2rem;
+}
+
+/* Reduced motion */
+.reduce-motion * {
+  animation-duration: 0.001ms !important;
+  transition-duration: 0.001ms !important;
+}
 
 @layer base {
   * {
