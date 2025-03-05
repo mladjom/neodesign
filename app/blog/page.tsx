@@ -1,21 +1,16 @@
-import { Suspense } from 'react';
+import { BlogListHero } from "@/components/sections/blog/BlogListHero";
+import { BlogSearchSection } from "@/components/sections/blog/BlogSearchSection";
+import { FeaturedPostSection } from "@/components/sections/blog/FeaturedPostSection";
+import { CategoryFilterSection } from "@/components/sections/blog/CategoryFilterSection";
+import { BlogGridSection } from "@/components/sections/blog/BlogGridSection";
+import { BlogPaginationSection } from "@/components/sections/blog/BlogPaginationSection";
 import { 
   getPaginatedBlogPosts, 
   getAllCategories, 
   getFeaturedPosts 
-} from '@/lib/blog-service';
-import { BlogSearch } from '@/components/blog/BlogSearch';
-import { FeaturedPost } from '@/components/blog/FeaturedPost';
-import { CategoryFilter } from '@/components/blog/CategoryFilter';
-import { BlogGrid } from '@/components/blog/BlogGrid';
-import { BlogPagination } from '@/components/blog/BlogPagination';
-import { BlogLayout } from '@/components/blog/BlogLayout';
-import { 
-  FeaturedPostSkeleton, 
-  CategoryFilterSkeleton, 
-  BlogGridSkeleton 
-} from '@/components/blog/loading';
-import { Metadata } from 'next';
+} from "@/lib/blog-service";
+import { createMetadata } from "@/config/metadata";
+import { PageTransition } from "@/components/animation/PageTransition";
 
 interface BlogPageProps {
   searchParams: Promise<{
@@ -25,15 +20,10 @@ interface BlogPageProps {
   }>;
 }
 
-export const metadata: Metadata = {
-  title: 'Blog | Our Insights and Thoughts',
-  description: 'Discover our latest articles, tutorials, and insights on web development, design, and technology.',
-  openGraph: {
-    title: 'Blog | Our Insights and Thoughts',
-    description: 'Discover our latest articles, tutorials, and insights on web development, design, and technology.',
-    type: 'website',
-  },
-};
+export const metadata = createMetadata({
+  title: "Blog | Our Insights and Thoughts",
+  description: "Discover our latest articles, tutorials, and insights on web development, design, and technology.",
+});
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   // Await the searchParams before accessing its properties
@@ -56,42 +46,13 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const featuredPost = featuredPosts[0];
 
   return (
-    <BlogLayout>
-      <div className="space-y-12">
-        {/* Page Header */}
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold tracking-tight">Our Blog</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover our latest articles, tutorials, and insights on web development,
-            design, and technology.
-          </p>
-        </div>
-
-        {/* Search Bar */}
-        <div className="max-w-md mx-auto w-full">
-          <BlogSearch />
-        </div>
-
-        {/* Featured Post */}
-        <Suspense fallback={<FeaturedPostSkeleton />}>
-          {featuredPost && <FeaturedPost post={featuredPost} />}
-        </Suspense>
-
-        {/* Category Filter */}
-        <Suspense fallback={<CategoryFilterSkeleton />}>
-          <CategoryFilter categories={categories} />
-        </Suspense>
-
-        {/* Blog Grid */}
-        <Suspense fallback={<BlogGridSkeleton />}>
-          <BlogGrid posts={posts} />
-        </Suspense>
-
-        {/* Pagination */}
-        {pageCount > 1 && (
-          <BlogPagination totalPages={pageCount} currentPage={currentPage} />
-        )}
-      </div>
-    </BlogLayout>
+    <PageTransition>
+      <BlogListHero />
+      <BlogSearchSection />
+      {featuredPost && <FeaturedPostSection post={featuredPost} />}
+      <CategoryFilterSection categories={categories} />
+      <BlogGridSection posts={posts} />
+      <BlogPaginationSection totalPages={pageCount} currentPage={currentPage} />
+    </PageTransition>
   );
 }

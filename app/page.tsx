@@ -1,43 +1,26 @@
-import { Suspense, lazy } from "react";
-import { Hero } from "@/components/sections/Hero";
-import { Services } from "@/components/sections/Services";
-import { getAllBlogPosts } from "@/lib/blog-service"; 
-import { SectionLoading } from "@/components/ui/section-loading";
-
-// Lazy load below-the-fold components
-const LazyFeaturedWork = lazy(() => import("@/components/sections/FeaturedWork").then(mod => ({ default: mod.FeaturedWork })));
-const LazyTestimonials = lazy(() => import("@/components/sections/Testimonials").then(mod => ({ default: mod.Testimonials })));
-const LazyBlogPosts = lazy(() => import("@/components/sections/BlogPosts").then(mod => ({ default: mod.BlogPosts })));
-const LazyCTA = lazy(() => import("@/components/sections/CTA").then(mod => ({ default: mod.CTA })));
+import { HeroSection } from "@/components/sections/home/HeroSection";
+import { ServicesSection } from "@/components/sections/home/ServicesSection";
+import { FeaturedWorkSection } from "@/components/sections/home/FeaturedWorkSection";
+import { TestimonialsSection } from "@/components/sections/home/TestimonialsSection";
+import { BlogSection } from "@/components/sections/home/BlogSection";
+import { CTASection } from "@/components/sections/home/CTASection";
+import { getAllBlogPosts } from "@/lib/blog-service";
+import { PageTransition } from "@/components/animation/PageTransition";
 
 export default async function Home() {
-    // Fetch the latest blog posts
-    const allPosts = await getAllBlogPosts();
-    // Get the most recent 3 posts
-    const latestPosts = allPosts.slice(0, 3);
-    
-    return (
-      <div className="space-y-20 md:space-y-32">
-        {/* Always render above-the-fold content immediately */}
-        <Hero />
-        <Services />
-        
-        {/* Lazy load below-the-fold content */}
-        <Suspense fallback={<SectionLoading layout="grid" columns={2} />}>
-          <LazyFeaturedWork />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoading layout="grid" columns={3} />}>
-          <LazyTestimonials />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoading layout="grid" columns={3} />}>
-          <LazyBlogPosts posts={latestPosts} />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoading />}>
-          <LazyCTA />
-        </Suspense>
-      </div>
-    );
+  // Fetch the latest blog posts
+  const allPosts = await getAllBlogPosts();
+  // Get the most recent 3 posts
+  const latestPosts = allPosts.slice(0, 3);
+
+  return (
+    <PageTransition>
+      <HeroSection />
+      <ServicesSection />
+      <FeaturedWorkSection />
+      <TestimonialsSection />
+      <BlogSection posts={latestPosts} />
+      <CTASection />
+    </PageTransition>
+  );
 }
