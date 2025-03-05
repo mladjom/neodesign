@@ -80,7 +80,7 @@ export function HeroSection() {
           style={{ willChange: "opacity, transform" }}
         >
           <OptimizedImage
-            src="/images/hero/hero-image.jpg"
+            src="/images/hero/digital-design-process_800x600.webp"
             alt="Hero illustration of digital design process"
             width={800}
             height={600}
