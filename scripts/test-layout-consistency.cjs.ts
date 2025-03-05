@@ -1,15 +1,7 @@
-/**
- * This script analyzes component files to verify layout consistency.
- * It checks for:
- * - Consistent use of SectionWrapper
- * - Proper motion component usage
- * - Consistent spacing
- * - Proper viewport settings
- */
-
-import fs from 'fs';
-import path from 'path';
-import { glob } from 'glob';
+// Change import to require
+const fs = require('fs');
+const path = require('path');
+const glob = require('glob').glob; // Adjust based on how glob is exported
 
 const COMPONENTS_DIR = path.join(process.cwd(), 'components');
 
