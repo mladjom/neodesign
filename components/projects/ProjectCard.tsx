@@ -1,24 +1,29 @@
-import Image from "next/image";
-import Link from "next/link";
+'use client';
+
+import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
 import type { Project } from "@/types/project";
 
-interface ProjectCardProps {
+interface ProjectAnimatedCardProps {
   project: Project;
   index: number;
 }
 
-export function ProjectCard({ project, index }: ProjectCardProps) {
+export function ProjectCard({ project, index }: ProjectAnimatedCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
+      whileHover={{ y: -5 }}
+      className="h-full"
     >
-      <Link href={`/projects/${project.slug}`}>
-        <Card className="group hover:shadow-lg transition-shadow duration-300">
+      <Link href={`/projects/${project.slug}`} className="h-full">
+        <Card className="h-full group hover:shadow-lg transition-shadow duration-300">
           <CardHeader className="p-0">
             <div className="aspect-video relative overflow-hidden rounded-t-lg">
               <Image
@@ -38,7 +43,9 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               ))}
             </div>
             <div>
-              <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+                {project.title}
+              </h3>
               <p className="text-muted-foreground line-clamp-2">
                 {project.description}
               </p>

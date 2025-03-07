@@ -1,10 +1,11 @@
 "use client";
 
 import { SectionWrapper } from "@/components/layout/SectionWrapper";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Project } from "@/types/project";
 import { getAllProjects } from "@/lib/project-service";
-import { AnimatedProjectGrid } from "@/components/projects/AnimatedProjectGrid";
+import { ProjectGrid } from "@/components/projects/ProjectGrid";
 
 interface RelatedProjectsProps {
   currentSlug: string;
@@ -41,18 +42,24 @@ export function RelatedProjects({ currentSlug, category }: RelatedProjectsProps)
 
   return (
     <SectionWrapper title="Related Projects" centered>
-      {loading ? (
-        <div className="grid gap-8 md:grid-cols-3">
-          {Array.from({ length: 3 }).map((_, index) => (
-            <div 
-              key={index} 
-              className="rounded-lg border bg-card shadow-sm h-96 animate-pulse" 
-            />
-          ))}
-        </div>
-      ) : (
-        <AnimatedProjectGrid projects={projects} />
-      )}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        {loading ? (
+          <div className="grid gap-8 md:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div 
+                key={index} 
+                className="rounded-lg border bg-card shadow-sm h-96 animate-pulse" 
+              />
+            ))}
+          </div>
+        ) : (
+          <ProjectGrid projects={projects} />
+        )}
+      </motion.div>
     </SectionWrapper>
   );
 }

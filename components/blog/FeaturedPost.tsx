@@ -17,11 +17,8 @@ interface FeaturedPostProps {
 
 export function FeaturedPost({ post }: FeaturedPostProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="mb-10"
-    >
+    <div className="mb-10">
+
       <Card className="overflow-hidden">
         <CardContent className="p-0">
           <div className="grid md:grid-cols-2 gap-6 lg:gap-12">
@@ -73,6 +70,6 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 }

@@ -39,6 +39,7 @@ export function HeroSection() {
         initial="hidden"
         animate="visible"
         variants={containerVariants}
+        viewport={{ once: true }}
       >
         <motion.div variants={itemVariants} className="space-y-6">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight">

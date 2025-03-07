@@ -11,6 +11,7 @@ export function BlogListHero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
             >
                 <div className="text-center space-y-4">
                     <h1 className="text-4xl font-bold tracking-tight">Our Blog</h1>

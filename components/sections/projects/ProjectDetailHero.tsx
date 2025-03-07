@@ -20,7 +20,8 @@ export function ProjectDetailHero({
       <motion.div
         className="max-w-4xl mx-auto space-y-6"
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
       >
         <div className="flex gap-2 flex-wrap">
           {technologies.map((tech) => (

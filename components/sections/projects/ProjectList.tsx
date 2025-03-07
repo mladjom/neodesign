@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { ProjectFilter } from '@/components/projects/ProjectFilter';
-import { AnimatedProjectGrid } from '@/components/projects/AnimatedProjectGrid';
+import { ProjectGrid } from '@/components/projects/ProjectGrid';
 import { getAllProjects } from '@/lib/project-service';
 import { Project } from '@/types/project';
-import { useEffect } from 'react';
 
 interface ProjectListProps {
   categories: string[];
@@ -38,7 +38,12 @@ export function ProjectList({ categories }: ProjectListProps) {
 
   return (
     <SectionWrapper>
-      <div className="space-y-12">
+      <motion.div 
+        className="space-y-12"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
         <ProjectFilter
           categories={categories}
           activeCategory={activeCategory}
@@ -55,9 +60,9 @@ export function ProjectList({ categories }: ProjectListProps) {
             ))}
           </div>
         ) : (
-          <AnimatedProjectGrid projects={filteredProjects} />
+          <ProjectGrid projects={filteredProjects} />
         )}
-      </div>
+      </motion.div>
     </SectionWrapper>
   );
 }

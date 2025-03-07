@@ -16,8 +16,9 @@ export function ProjectFilter({
     <motion.div
       className="flex flex-wrap gap-4 justify-center"
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-    >
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      >
       <Button
         variant={activeCategory === "all" ? "default" : "outline"}
         onClick={() => onCategoryChange("all")}

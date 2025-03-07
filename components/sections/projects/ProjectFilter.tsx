@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { SectionWrapper } from '@/components/layout/SectionWrapper';
 
 interface ProjectFilterProps {
   categories: string[];
@@ -15,10 +16,12 @@ export function ProjectFilter({
   onCategoryChange,
 }: ProjectFilterProps) {
   return (
+    <SectionWrapper>
     <motion.div
       className="flex flex-wrap gap-4 justify-center mb-8"
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
     >
       <Button
         variant={activeCategory === "all" ? "default" : "outline"}
@@ -51,5 +54,6 @@ export function ProjectFilter({
         </Button>
       ))}
     </motion.div>
+    </SectionWrapper>
   );
 }

@@ -11,6 +11,7 @@ export function AboutHero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
       >
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
           Crafting Digital Excellence

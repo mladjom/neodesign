@@ -9,7 +9,12 @@ import { ContactData } from "@/config/contact";
 export function ContactInfo() {
     return (
         <SectionWrapper>
-            <div className="grid gap-8 md:grid-cols-3">
+            <motion.div 
+                className="grid gap-8 md:grid-cols-3"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+            >
                 {[
                     {
                         icon: <Mail className="h-6 w-6" />,
@@ -35,6 +40,7 @@ export function ContactInfo() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
+                        transition={{ delay: item.title === "Email" ? 0 : item.title === "Phone" ? 0.2 : 0.4 }}
                     >
                         <Card className="p-6 text-center space-y-4">
                             <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -52,7 +58,7 @@ export function ContactInfo() {
                         </Card>
                     </motion.div>
                 ))}
-            </div>
+            </motion.div>
         </SectionWrapper>
     );
 }

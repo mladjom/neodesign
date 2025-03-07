@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SectionWrapper } from "@/components/layout/SectionWrapper";
-import { fadeIn } from "@/lib/animations";
 import { ServicesData } from "@/config/services";
 import { AnalyticsLink } from "@/components/core/AnalyticsLink";
 import { Code, Palette, LineChart } from "lucide-react";
@@ -45,6 +44,7 @@ function ServiceCard({ service, index }: ServiceCardProps) {
       initial="initial"
       animate="animate"
       transition={{ delay: index * 0.2 }}
+      viewport={{ once: true }}
     >
       <Card className="p-6 h-full">
         <div className="p-3 bg-primary/10 w-fit rounded-lg mb-4">
