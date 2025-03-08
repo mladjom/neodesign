@@ -1,9 +1,11 @@
+'use server';
+
 import { promises as fs } from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { ProjectDetail, Project } from '@/types/project';
 
-const PROJECTS_DIR = path.join(process.cwd(), 'data/projects');
+const PROJECTS_DIR = path.join(process.cwd(), 'content/projects');
 
 export async function getProjectBySlug(slug: string): Promise<ProjectDetail> {
   try {

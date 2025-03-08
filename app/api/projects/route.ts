@@ -4,7 +4,7 @@ import matter from 'gray-matter';
 import { NextResponse } from 'next/server';
 import { ProjectDetail, Project } from '@/types/project';
 
-const PROJECTS_DIR = path.join(process.cwd(), 'data/projects');
+const PROJECTS_DIR = path.join(process.cwd(), 'content/projects');
 
 async function getProjectBySlug(slug: string): Promise<ProjectDetail> {
   try {
