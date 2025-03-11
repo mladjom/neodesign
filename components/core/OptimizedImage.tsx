@@ -23,13 +23,19 @@ export function OptimizedImage({
   };
 
   if (fill) {
+    // When using fill prop, ensure parent has relative positioning and defined dimensions
     return (
       <div 
         className={cn(
           'relative overflow-hidden', 
           aspectRatio && `aspect-[${aspectRatio}]`,
+          !aspectRatio && 'aspect-[16/9]', // Default aspect ratio if none provided
           className
         )}
+        style={{
+          width: '100%',
+          height: aspectRatio ? 'auto' : '100%'
+        }}
       >
         <Image
           {...props}

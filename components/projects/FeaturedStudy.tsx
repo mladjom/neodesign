@@ -28,7 +28,7 @@ export function FeaturedStudy({ project, index }: FeaturedStudyProps) {
             <div className="space-y-4">
               <h3 className="text-2xl font-semibold">{project.title}</h3>
               <p className="text-muted-foreground">{project.summary}</p>
-              <ul className="space-y-2">
+              <ul className="space-y-2 pb-2">
                 {project.outcomes.map((outcome, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary" />

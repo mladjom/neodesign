@@ -30,7 +30,8 @@ export function TestimonialsSection() {
               <div className="space-y-4">
                 <p className="text-muted-foreground">"{testimonial.content}"</p>
                 <div className="flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-full overflow-hidden relative">
+                  {/* Fixed avatar container with defined width/height instead of fill */}
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden">
                     <OptimizedImage
                       src={testimonial.avatar || `/images/testimonials/avatar-${index + 1}.jpg`}
                       alt={testimonial.author}

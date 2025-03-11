@@ -39,7 +39,8 @@ export function BlogSection({ posts }: BlogSectionProps) {
               label={post.slug}
             >
               <Card className="overflow-hidden h-full transition-transform hover:scale-[1.02]">
-                <div className="aspect-video relative">
+                {/* Fixed image container with proper aspect ratio */}
+                <div className="relative w-full aspect-video">
                   <OptimizedImage
                     src={post.coverImage || `/images/blog/post-${index + 1}.jpg`}
                     alt={post.title}
