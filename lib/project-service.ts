@@ -56,6 +56,30 @@ export async function getAllProjects(): Promise<ProjectDetail[]> {
   }
 }
 
+/**
+ * Gets all unique project categories
+ */
+export async function getAllProjectCategories(): Promise<string[]> {
+  try {
+    const allProjects = await getAllProjects();
+    
+    // Extract unique categories
+    const categoriesSet = new Set<string>();
+    allProjects.forEach(project => {
+      if (project.category) {
+        categoriesSet.add(project.category);
+      }
+    });
+    
+    // Convert to array and sort alphabetically
+    return Array.from(categoriesSet).sort();
+    
+  } catch (error) {
+    console.error('Error fetching project categories:', error);
+    return [];
+  }
+}
+
 export async function getProjectsByCategory(category: string): Promise<Project[]> {
   const allProjects = await getAllProjects();
   return allProjects.filter(project => project.category.toLowerCase() === category.toLowerCase());

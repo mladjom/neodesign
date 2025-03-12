@@ -6,7 +6,7 @@
     "role": "Creator & Lead Developer",
     "thumbnail": "/images/projects/design-system-generator_1200x675.webp",
     "technologies": ["React", "TypeScript", "Tailwind CSS", "Context API", "CSS Variables"],
-    "category": "development-tools",
+    "category": "Development Tools",
     "summary": "A comprehensive tool for creating and maintaining consistent design systems for digital products, streamlining the process from design to implementation.",
     "description": "The Design System Generator is a comprehensive tool for creating and maintaining consistent design systems for digital products. It provides an intuitive interface for generating typography scales, color palettes, spacing systems, and component tokens—all exportable to various formats for immediate implementation in projects.",
     "outcomes": [
@@ -74,64 +74,6 @@
         "metric": "Implementation Time",
         "value": "60% Reduction",
         "description": "Decreased time to implement design systems in code"
-      }
-    ],
-    "features": [
-      {
-        "title": "Typography System",
-        "description": "Create consistent text styles with base font settings, scales, and responsive typography.",
-        "details": "The Typography module helps you create consistent and harmonious text styles across your application with base font settings, type scale generation, and responsive adjustments for different device sizes."
-      },
-      {
-        "title": "Color System",
-        "description": "Generate comprehensive color palettes with shades, dark mode variants, and accessibility checks.",
-        "details": "The Color module allows you to create comprehensive color palettes with consistent shades and variants, including primary and secondary colors, semantic colors for states, and automatic dark mode adaptations."
-      },
-      {
-        "title": "Spacing System",
-        "description": "Establish consistent spacing throughout interfaces with scalable units and breakpoints.",
-        "details": "The Spacing module helps establish consistent spacing throughout your interface by defining a foundational spacing unit, generating comprehensive scales, and establishing responsive breakpoints."
-      },
-      {
-        "title": "Component Tokens",
-        "description": "Define foundational styles for UI components including borders, shadows, and transitions.",
-        "details": "The Component Tokens module defines foundational styles for UI components including border radius values, border widths, elevation through box shadows, and standard transition timings."
-      },
-      {
-        "title": "Export System",
-        "description": "Generate design tokens in multiple formats for immediate implementation in your projects.",
-        "details": "The Export module generates code in various formats (CSS Variables, SCSS, Tailwind config, JSON) for easy implementation, allowing selective export of system parts and dark mode variables."
-      }
-    ],
-    "exportFormats": [
-      {
-        "title": "CSS Variables",
-        "code": ":root {\n  /* Typography */\n  --base-font-size: 16px;\n  --base-line-height: 1.5;\n  --font-family-body: \"Inter, system-ui, sans-serif\";\n  \n  /* Colors */\n  --primary-50: #f0f9ff;\n  --primary-100: #e0f2fe;\n  /* ... */\n  \n  /* Dark mode included as nested scope */\n  .dark {\n    --primary-50: #0f172a;\n    /* ... */\n  }\n}"
-      },
-      {
-        "title": "Tailwind Config",
-        "code": "/** @type {import('tailwindcss').Config} */\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        primary: {\n          '50': '#f0f9ff',\n          '100': '#e0f2fe',\n          // ...\n        },\n        // ...\n      },\n      fontSize: {\n        'xs': ['0.75rem', { lineHeight: '1.5' }],\n        // ...\n      },\n      // ...\n    },\n  },\n  darkMode: 'class',\n}"
-      },
-      {
-        "title": "SCSS Variables",
-        "code": "// Typography\n$base-font-size: 16px;\n$base-line-height: 1.5;\n$font-family-body: \"Inter, system-ui, sans-serif\";\n\n// Colors\n$primary: (\n  50: #f0f9ff,\n  100: #e0f2fe,\n  // ...\n);\n\n// Function to access colors\n@function color($color, $shade) {\n  @return map-get($#{$color}, $shade);\n}"
-      }
-    ],
-    "additionalImages": [
-      {
-        "src": "/images/projects/design-system-typography_1200x675.webp",
-        "alt": "Typography scale generation interface",
-        "caption": "Typography module showing scale generation and preview"
-      },
-      {
-        "src": "/images/projects/design-system-colors_1200x675.webp",
-        "alt": "Color system interface with shade generation",
-        "caption": "Color system showing automatic shade generation and contrast checking"
-      },
-      {
-        "src": "/images/projects/design-system-components_1200x675.webp",
-        "alt": "Component token interface",
-        "caption": "Component token module with visual previews of different settings"
       }
     ]
   }
