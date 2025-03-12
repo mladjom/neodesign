@@ -16,7 +16,7 @@ export function CTASection() {
       >
         <h2 className="text-3xl font-bold mb-6">Ready to Start Your Project?</h2>
         <p className="text-xl mb-8 max-w-2xl mx-auto">
-          Let's collaborate to bring your vision to life with cutting-edge technology and design.
+          Let&apos;s collaborate to bring your vision to life with cutting-edge technology and design.
         </p>
         <Button size="lg" variant="secondary" asChild>
           <AnalyticsLink 

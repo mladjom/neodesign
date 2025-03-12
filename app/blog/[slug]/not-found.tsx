@@ -16,7 +16,7 @@ export default function BlogNotFound() {
         <FileQuestion className="w-20 h-20 text-muted-foreground mx-auto" />
         <h1 className="text-4xl font-bold">Article Not Found</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          The blog post you're looking for doesn't exist or may have been moved.
+          The blog post you&apos;re looking for doesn&apos;t exist or may have been moved.
         </p>
         <div className="flex justify-center gap-4 pt-4">
           <Button asChild>

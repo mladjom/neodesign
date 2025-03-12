@@ -26,7 +26,7 @@ export function AboutStory() {
               thinkers.
             </p>
             <p>
-              Today, we're proud to have partnered with businesses across the
+              Today, we&apos;re proud to have partnered with businesses across the
               globe, helping them achieve their digital transformation goals
               and create meaningful connections with their audiences.
             </p>

@@ -79,6 +79,7 @@ export default function ProjectPage() {
             title={project.title}
             description={project.description}
             technologies={project.technologies}
+            projectUrl={project.projectUrl}
           />
 
           <ProjectOverviewSection

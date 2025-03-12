@@ -2,13 +2,7 @@
 
 import { useAccessibility } from './AccessibilityContext';
 import { Button } from '@/components/ui/button';
-import { 
-  ZoomIn, 
-  ZoomOut, 
-  Eye, 
-  Monitor, 
-  X 
-} from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { 
   Sheet,
   SheetContent,

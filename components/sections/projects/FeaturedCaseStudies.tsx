@@ -5,7 +5,7 @@ import { SectionWrapper } from "@/components/layout/SectionWrapper";
 import { FeaturedStudy } from "@/components/projects/FeaturedStudy";
 import { Project } from "@/types/project";
 import { useEffect, useState } from "react";
-import { getAllProjects } from "@/lib/project-service";
+import { getFeaturedProjects } from "@/lib/project-service";
 
 export function FeaturedCaseStudies() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -14,10 +14,11 @@ export function FeaturedCaseStudies() {
   useEffect(() => {
     const loadProjects = async () => {
       try {
-        const allProjects = await getAllProjects();
-        setProjects(allProjects.slice(0, 3));
+        // Use the new getFeaturedProjects function
+        const featuredProjects = await getFeaturedProjects(3);
+        setProjects(featuredProjects);
       } catch (error) {
-        console.error("Error loading projects:", error);
+        console.error("Error loading featured projects:", error);
       } finally {
         setLoading(false);
       }
@@ -66,17 +67,23 @@ export function FeaturedCaseStudies() {
           viewport={{ once: true }}
           variants={containerVariants}
         >
-          {projects.map((project, index) => (
-            <motion.div 
-              key={project.slug}
-              variants={itemVariants}
-            >
-              <FeaturedStudy 
-                project={project}
-                index={index}
-              />
-            </motion.div>
-          ))}
+          {projects.length > 0 ? (
+            projects.map((project, index) => (
+              <motion.div 
+                key={project.slug}
+                variants={itemVariants}
+              >
+                <FeaturedStudy 
+                  project={project}
+                  index={index}
+                />
+              </motion.div>
+            ))
+          ) : (
+            <div className="text-center py-8 text-muted-foreground">
+              No featured projects found. Mark projects as featured to display them here.
+            </div>
+          )}
         </motion.div>
       )}
     </SectionWrapper>

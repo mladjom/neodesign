@@ -2,37 +2,20 @@
 
 import { promises as fs } from 'fs';
 import path from 'path';
-import matter from 'gray-matter';
 import { ProjectDetail, Project } from '@/types/project';
 
 const PROJECTS_DIR = path.join(process.cwd(), 'content/projects');
 
 export async function getProjectBySlug(slug: string): Promise<ProjectDetail> {
   try {
-    const filePath = path.join(PROJECTS_DIR, `${slug}.mdx`);
+    const filePath = path.join(PROJECTS_DIR, `${slug}.json`);
     const fileContent = await fs.readFile(filePath, 'utf8');
     
-    const { data, content } = matter(fileContent);
+    // Parse JSON file
+    const project = JSON.parse(fileContent) as ProjectDetail;
     
-    // Validate and transform the data
-    const project = {
-      slug,
-      title: data.title,
-      client: data.client,
-      timeline: data.timeline,
-      role: data.role,
-      thumbnail: data.thumbnail,
-      technologies: data.technologies || [],
-      category: data.category,
-      summary: data.summary,
-      description: data.description,
-      outcomes: data.outcomes || [],
-      challenge: data.challenge,
-      solution: data.solution,
-      process: data.process || [],
-      testimonial: data.testimonial,
-      results: data.results || [],
-    } as ProjectDetail;
+    // Ensure slug is set
+    project.slug = slug;
     
     return project;
   } catch (error) {
@@ -47,9 +30,9 @@ export async function getAllProjects(): Promise<ProjectDetail[]> {
     
     const projects = await Promise.all(
       fileNames
-        .filter(fileName => fileName.endsWith('.mdx'))
+        .filter(fileName => fileName.endsWith('.json'))
         .map(async fileName => {
-          const slug = fileName.replace(/\.mdx$/, '');
+          const slug = fileName.replace(/\.json$/, '');
           const project = await getProjectBySlug(slug);
           return project;
         })
@@ -76,4 +59,36 @@ export async function getAllProjects(): Promise<ProjectDetail[]> {
 export async function getProjectsByCategory(category: string): Promise<Project[]> {
   const allProjects = await getAllProjects();
   return allProjects.filter(project => project.category.toLowerCase() === category.toLowerCase());
+}
+
+/**
+ * Gets featured projects, optionally limited to a specific number
+ * Projects are considered featured if they have featured flag set to true
+ */
+export async function getFeaturedProjects(limit: number = 3): Promise<ProjectDetail[]> {
+  try {
+    const allProjects = await getAllProjects();
+    
+    // Filter projects that have featured=true
+    const featuredProjects = allProjects.filter(project => project.featured === true);
+    
+    // Still respect the priority ordering
+    const sortedFeaturedProjects = featuredProjects.sort((a, b) => {
+      if (a.priority !== undefined && b.priority !== undefined) {
+        return a.priority - b.priority;
+      }
+      
+      // Default sort by date if no priority
+      const dateA = a.startDate ? new Date(a.startDate) : new Date(0);
+      const dateB = b.startDate ? new Date(b.startDate) : new Date(0);
+      
+      return dateB.getTime() - dateA.getTime();
+    });
+    
+    // Return limited number if specified
+    return limit > 0 ? sortedFeaturedProjects.slice(0, limit) : sortedFeaturedProjects;
+  } catch (error) {
+    console.error('Error fetching featured projects:', error);
+    return [];
+  }
 }

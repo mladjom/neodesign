@@ -71,7 +71,7 @@ const { services, companyLinks, legalLinks } = useNavigation();
           <div className="space-y-4">
             <h3 className="font-semibold">Get in Touch</h3>
             <p className="text-sm text-muted-foreground">
-              Ready to start your next project? We'd love to hear from you.
+              Ready to start your next project? We&apos;d love to hear from you.
             </p>
             <Button asChild>
               <Link href="/contact">Contact Us</Link>

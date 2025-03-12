@@ -9,6 +9,7 @@ import { OptimizedImage } from "@/components/core/OptimizedImage";
 import { AnalyticsLink } from "@/components/core/AnalyticsLink";
 import { useEffect, useState } from "react";
 import { Project } from "@/types/project";
+import { getAllProjects } from "@/lib/project-service";
 
 export function FeaturedWorkSection() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -19,15 +20,10 @@ export function FeaturedWorkSection() {
     const loadProjects = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/projects');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch projects');
-        }
-        
-        const data = await response.json();
+        // Use the direct project service instead of API call
+        const allProjects = await getAllProjects();
         // Limit to 4 featured projects
-        setProjects(data.slice(0, 4));
+        setProjects(allProjects.slice(0, 4));
         setError(null);
       } catch (error) {
         console.error("Error loading projects:", error);

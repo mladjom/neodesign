@@ -22,7 +22,7 @@ export async function getOptimizedImage(src: string): Promise<OptimizedImage> {
         src,
         blurDataURL: base64,
         width: metadata.width || 1200,
-        height: metadata.height || 630
+        height: metadata.height || 675
       };
     }
     
@@ -36,7 +36,7 @@ export async function getOptimizedImage(src: string): Promise<OptimizedImage> {
       src,
       blurDataURL: base64,
       width: metadata.width || 1200,
-      height: metadata.height || 630
+      height: metadata.height || 675
     };
   } catch (error) {
     console.error(`Error optimizing image ${src}:`, error);
@@ -46,7 +46,7 @@ export async function getOptimizedImage(src: string): Promise<OptimizedImage> {
       src,
       blurDataURL: '',
       width: 1200,
-      height: 630
+      height: 675
     };
   }
 }

@@ -14,7 +14,7 @@ export function ContactHero() {
       >
         <h1 className="text-4xl md:text-6xl font-bold">Get in Touch</h1>
         <p className="text-xl text-muted-foreground">
-          Let's discuss how we can help bring your vision to life
+          Let&apos;s discuss how we can help bring your vision to life
         </p>
       </motion.div>
     </SectionWrapper>

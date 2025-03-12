@@ -16,6 +16,7 @@ export interface Project {
   startDate?: Date; // Project start date
   endDate?: Date; // Project end date
   priority?: number; // For sorting projects
+  featured?: boolean; // Flag for featured projects
 }
 
 // Add more specific types for process steps

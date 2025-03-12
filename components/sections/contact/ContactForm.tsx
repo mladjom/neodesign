@@ -88,7 +88,7 @@ export function ContactFormSection() {
                             <CheckCircle className="h-12 w-12 text-green-500 mx-auto" />
                             <h3 className="text-xl font-semibold">Message Sent!</h3>
                             <p className="text-muted-foreground">
-                                Thank you for your message. We'll get back to you as soon as possible.
+                                Thank you for your message. We&apos;ll get back to you as soon as possible.
                             </p>
                             <Button
                                 variant="outline"

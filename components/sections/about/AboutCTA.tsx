@@ -15,7 +15,7 @@ export function AboutCTA() {
       >
         <h2 className="text-3xl font-bold">Ready to Start Your Project?</h2>
         <p className="text-xl text-muted-foreground">
-          Let's work together to bring your vision to life
+          Let&apos;s work together to bring your vision to life
         </p>
         <Button size="lg" asChild>
           <AnalyticsLink 

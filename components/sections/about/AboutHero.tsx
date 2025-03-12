@@ -17,7 +17,7 @@ export function AboutHero() {
           Crafting Digital Excellence
         </h1>
         <p className="text-xl text-muted-foreground">
-          We're a team of passionate designers and developers dedicated to
+          We&apos;re a team of passionate designers and developers dedicated to
           transforming ideas into exceptional digital experiences.
         </p>
       </motion.div>
